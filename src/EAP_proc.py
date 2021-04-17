@@ -7,7 +7,7 @@ IOP 2-layer base code
 """
 # fortran wrapper
 from numpy import f2py
-sourcefile = open('/Users/jkravz311/git_projects/Radiative-Transfer/EAP/Dmmex_R14B_4.f','rb')
+sourcefile = open('/Users/jkravz311/git/EAP/src/Dmmex_R14B_4.f','rb')
 sourcecode = sourcefile.read()
 f2py.compile(sourcecode, modulename='Dmmex_R14B_4')
 import Dmmex_R14B_4
