@@ -1,0 +1,8 @@
+Species,Class,Dmin,Dmax,Vs,Ci,nshell
+Prochlorococcus,Cyanophyceae,0.5,1,Vs1,Ci3,nshell1
+Synechococcus,Cyanophyceae,0.5,1,Vs2,Ci2,nshell_syne
+A. marina,Cyanophyceae,1.5,2,Vs1,Ci3,nshell1
+P. pinguis,Haptophyceae,5,8,Vs2,Ci2,nshell2
+T. pseudonana,Bacillariophyceae,5,8,Vs1,Ci2,nshell2
+P. lutheri,Haptophyceae,3,7,Vs1,Ci2,nshell2
+I. galbana,Haptophyceae,3,7,Vs1,Ci2,nshell2

@@ -13,21 +13,22 @@ from src.EAP_proc import EAP
 import pickle
 import statsmodels.api as sm
 
-phyto = 'H. akashiwo' 
+phyto = 'A. marina' 
+code = 'syma'
 mf = '/Users/jkravz311/git/EAP/data/501nm_extended_e1701000.mat'
-astarpath = '/Users/jkravz311/git/EAP/data/in_vivo_phyto_abs.csv'
-batchinfo = pd.read_csv('/Users/jkravz311/git/EAP/data/EAP_batch_V1.csv', index_col=0)
+astarpath = '/Users/jkravz311/git/EAP/data/stamski_phyto_a.csv'
+batchinfo = pd.read_csv('/Users/jkravz311/git/EAP/data/stram_batch1.csv', index_col=0)
 
 params = {'Vs1': np.arange(0.04,0.26,0.02), # small
           'Vs2': np.arange(0.2,0.4,0.02), # medium
-          'Vs3': np.arange(0.36,0.56,0.02), # large
-          'Ci1': np.arange(.5e6,7e6,.5e6), # low
-          'Ci2': np.arange(4e6,12e6,.5e6), # high
-          'Ci3': np.arange(2e6,8e6,.5e6), # avg
-          'nshell1': np.arange(1.06,1.16,.01), # low 
-          'nshell2': np.arange(1.11, 1.22,.01), # high
-          'nshell3': np.arange(1.1, 1.19,.01), # avg
-          'nshell4': np.array([1.21, 1.22, 1.23]), # very high (huxleyi)
+          'Vs3': np.arange(0.4,0.6,0.02), # large
+          'Ci1': np.arange(.1e6,2.2e6,.2e6), # low
+          'Ci2': np.arange(2e6,7.5e6,.5e6), # med
+          'Ci3': np.arange(7e6,12e6,.5e6), # high
+          'Ci_syma': np.array([.1e6,.3e6]),
+          'nshell1': np.arange(1.06,1.12,.01), # low 
+          'nshell2': np.arange(1.12, 1.18,.01), # med
+          'nshell3': np.arange(1.18, 1.23,.01), # high
           'ncore': np.arange(1.014, 1.04, 0.005)}
 
 def pandafy (array, Deff):
@@ -41,7 +42,7 @@ VsF = np.random.choice(params[info.Vs], 2, replace=False)
 CiF = np.random.choice(params[info.Ci], 2, replace=False)
 nshellF = np.random.choice(params[info.nshell], 2, replace=False)
 ncore = np.random.choice(params['ncore'], 1)
-Deff = np.arange(info.Dmin, info.Dmax, .5)
+Deff = np.arange(info.Dmin, info.Dmax, .2)
 
 
 # Run
@@ -81,15 +82,52 @@ for Vs in VsF:
             
             result[rname] = rname_data
             
-with open('/Users/jkravz311/Desktop/akashiwo.p', 'wb') as fp:
+with open('/Users/jkravz311/Desktop/2layers/{}.p'.format(phyto), 'wb') as fp:
     pickle.dump(result,fp)      
-      
-#%%
+    
+#%% stramski data validation
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import pickle
+import statsmodels.api as sm
 
-with open('/Users/jkravz311/Desktop/akashiwo.p', 'rb') as fp:
+clas = 'Cyanophyceae'
+phyto = 'A. marina' 
+code = 'syma'
+
+with open('/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/dariusz/optics.p', 'rb') as fp:
+    val = pickle.load(fp)  
+
+# with open('/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/stramski_optics1.p'.format(phyto), 'rb') as fp:
+#     data = pickle.load(fp)  
+with open('/Users/jkravz311/Desktop/2layers/{}.p'.format(phyto), 'rb') as fp:
     data = pickle.load(fp)  
 
-p = 'b'
+p = 'a'
+l1 = np.arange(400,905,5)
+l2 = np.arange(400,901,1)
+
+# combine runs
+runs = []
+for sname in data:
+    s = data[sname][p]
+    for deff in s.index:
+        runs.append(s.loc[deff,:])
+
+runs = pd.concat(runs,axis=1).T 
+
+fig, ax = plt.subplots()
+sparam = val[code][p]
+res = sm.graphics.fboxplot(runs.values, l1, wfactor=50, ax=ax)
+ax.plot(l2,sparam,color='r')
+
+#%% vaillancourt data validation
+
+with open('/Users/jkravz311/Desktop/{}.p'.format(phyto), 'rb') as fp:
+    data = pickle.load(fp)  
+
+p = 'a'
 l1 = np.arange(400,905,5)
 l2 = np.arange(400,901,1)
 l3 = np.array([510,620])

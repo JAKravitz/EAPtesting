@@ -11,7 +11,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import argparse
 import pickle
-from EAP_proc import EAP
+from src.EAP_proc import EAP
 
 
 optics = {'Bacillariophyceae': {},
@@ -26,14 +26,16 @@ optics = {'Bacillariophyceae': {},
           'Prasinophyceae': {},
           'Prymnesiophyceae': {},
           'Raphidophyceae': {},
-          'Rhodophyceae': {}
+          'Rhodophyceae': {},
+          'Haptophyceae': {},
           }
 
 # paths to imaginary and real refractive index
-start = 'A. margalefi' # 0 to start from beginning, else phyto
-mf = '/Users/jkravz311/git_projects/Radiative-Transfer/EAP/501nm_extended_e1701000.mat'
-astarpath = '/Users/jkravz311/git_projects/Radiative-Transfer/EAP/data/in_vivo_phyto_abs.csv'
-batchinfo = pd.read_csv('/Users/jkravz311/git_projects/Radiative-Transfer/EAP/data/EAP_batch_V1.csv', index_col=0)
+start = 0 # 0 to start from beginning, else phyto
+mf = '/Users/jkravz311/git/EAP/data/501nm_extended_e1701000.mat'
+astarpath = '/Users/jkravz311/git/EAP/data/stamski_phyto_a.csv'
+batchinfo = pd.read_csv('/Users/jkravz311/git/EAP/data/stram_batch2.csv', index_col=0)
+outpath = '/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/stramski_optics2.p'
 
 ## Optical parameters to vary ##
 
@@ -52,16 +54,28 @@ batchinfo = pd.read_csv('/Users/jkravz311/git_projects/Radiative-Transfer/EAP/da
 # nshell = real refractive index of outer core (shell)
 # ranges 1.06-1.22
 
+# params = {'Vs1': np.arange(0.04,0.26,0.02), # small
+#           'Vs2': np.arange(0.2,0.4,0.02), # medium
+#           'Vs3': np.arange(0.36,0.56,0.02), # large
+#           'Ci1': np.arange(.5e6,7e6,.5e6), # low
+#           'Ci2': np.arange(4e6,12e6,.5e6), # high
+#           'Ci3': np.arange(2e6,8e6,.5e6), # avg
+#           'CiB': np.array([.000001]),
+#           'nshell1': np.arange(1.06,1.16,.01), # low 
+#           'nshell2': np.arange(1.11, 1.22,.01), # high
+#           'nshell3': np.arange(1.1, 1.19,.01), # avg
+#           'nshell4': np.array([1.21, 1.22, 1.23]), # very high (huxleyi)
+#           'ncore': np.arange(1.014, 1.04, 0.005)}
+
 params = {'Vs1': np.arange(0.04,0.26,0.02), # small
           'Vs2': np.arange(0.2,0.4,0.02), # medium
-          'Vs3': np.arange(0.36,0.56,0.02), # large
-          'Ci1': np.arange(.5e6,7e6,.5e6), # low
-          'Ci2': np.arange(4e6,12e6,.5e6), # high
-          'Ci3': np.arange(2e6,8e6,.5e6), # avg
-          'nshell1': np.arange(1.06,1.16,.01), # low 
-          'nshell2': np.arange(1.11, 1.22,.01), # high
-          'nshell3': np.arange(1.1, 1.19,.01), # avg
-          'nshell4': np.array([1.21, 1.22, 1.23]), # very high (huxleyi)
+          'Vs3': np.arange(0.4,0.6,0.02), # large
+          'Ci1': np.arange(.1e6,2.2e6,.2e6), # low
+          'Ci2': np.arange(2e6,7.5e6,.5e6), # med
+          'Ci3': np.arange(7e6,12e6,.5e6), # high
+          'nshell1': np.arange(1.06,1.12,.01), # low 
+          'nshell2': np.arange(1.12, 1.18,.01), # med
+          'nshell3': np.arange(1.18, 1.23,.01), # high
           'ncore': np.arange(1.014, 1.04, 0.005)}
 
 #%%
@@ -84,7 +98,7 @@ def pandafy (array, Deff):
 
 # define where to start in batch list
 if start == 0:
-    with open('/Users/jkravz311/Desktop/EAP_optics.p', 'wb') as fp:
+    with open(outpath, 'wb') as fp:
         pickle.dump(optics, fp) 
 else:
     batchinfo = batchinfo.loc[start:,:]
@@ -96,7 +110,7 @@ for i,phyto in enumerate(batchinfo.index):
     #     loaddata = json.load(fp)
     #     data = json.loads(loaddata)
 
-    with open('/Users/jkravz311/Desktop/EAP_optics.p', 'rb') as fp:
+    with open(outpath, 'rb') as fp:
         data = pickle.load(fp)
         
         print ('####### i: {} - phyto: {} #######'.format(i,phyto))
@@ -104,11 +118,14 @@ for i,phyto in enumerate(batchinfo.index):
         # get sample info
         info = batchinfo.loc[phyto,:]
         clss = info.Class
-        VsF = np.random.choice(params[info.Vs], 3, replace=False)
-        CiF = np.random.choice(params[info.Ci], 3, replace=False)
-        nshellF = np.random.choice(params[info.nshell], 3, replace=False)
+        VsF = np.random.choice(params[info.Vs], 2, replace=False)
+        CiF = np.random.choice(params[info.Ci], 2, replace=False)
+        nshellF = np.random.choice(params[info.nshell], 2, replace=False)
         ncore = np.random.choice(params['ncore'], 1)
-        Deff = np.arange(info.Dmin, info.Dmax, 1)
+        if phyto in ['Prochlorococcus','Synechococcus','A. marina']:
+            Deff = np.arange(info.Dmin, info.Dmax, .1)
+        else:
+            Deff = np.arange(info.Dmin, info.Dmax, 1)
         
         # add new phtyo to dictionary
         data[clss][phyto] = {}
@@ -152,7 +169,7 @@ for i,phyto in enumerate(batchinfo.index):
            
     # dumped = json.dumps(data, cls=NumpyEncoder)
     # json.dump(dumped,fp)
-    with open('/Users/jkravz311/Desktop/EAP_optics.p', 'wb') as fp:
+    with open(outpath, 'wb') as fp:
         pickle.dump(data,fp)
 
 # for loading saved json w/ numpy arrays...

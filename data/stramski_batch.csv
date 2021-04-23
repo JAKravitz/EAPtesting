@@ -1,0 +1,17 @@
+﻿Species,Class,Dmin,Dmax,Vs,Ci,nshell
+Prochlorococcus,﻿Cyanophyceae,0.5,0.8,Vs1,Ci2,nshell2
+Synechococcus,﻿Cyanophyceae,0.5,0.8,Vs1,Ci2,nshell2
+A. marina,﻿Cyanophyceae,0.8,1.3,Vs1,Ci2,nshell2
+P. pinguis,﻿Haptophyceae,3,6,Vs1,Ci2,nshell2
+T. pseudonana,﻿Bacillariophyceae,3,6,Vs1,Ci2,nshell2
+P. lutheri,﻿Haptophyceae,3,7,Vs1,Ci2,nshell2
+I. galbana,﻿Haptophyceae,3,7,Vs1,Ci2,nshell2
+E. huxleyi,﻿Haptophyceae,3,7,Vs1,Ci2,nshell3
+P. cruentum,﻿Rhodophyceae,4,8,Vs1,Ci2,nshell2
+C. fragarioides,﻿Cryptophyceae,4,8,Vs1,Ci2,nshell2
+P. parvum,﻿Haptophyceae,5,9,Vs1,Ci2,nshell2
+D. bioculata,﻿Chlorophyceae,5,9,Vs3,Ci2,nshell2
+D. tertiolecta,﻿Chlorophyceae,6,11,Vs3,Ci2,nshell2
+C. curvisetum,﻿Bacillariophyceae,6,11,Vs2,Ci1,nshell2
+H. elongata,﻿Haptophyceae,10,15,Vs2,Ci1,nshell2
+P. micans,﻿Dinophyceae,30,41,Vs3,Ci1,nshell2
