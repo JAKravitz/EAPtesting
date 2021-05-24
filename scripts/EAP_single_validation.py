@@ -15,11 +15,11 @@ import statsmodels.api as sm
 import random
 
 
-phyto = 'P. parvum' 
-code = 'parv'
+phyto = 'K. rotundum' 
+#code = 'parv'
 mf = '/Users/jkravz311/git/EAP/data/501nm_extended_e1701000.mat'
-astarpath = '/Users/jkravz311/git/EAP/data/stamski_phyto_a.csv'
-batchinfo = pd.read_csv('/Users/jkravz311/git/EAP/data/stram_batch_F.csv', index_col=0)
+astarpath = '/Users/jkravz311/git/EAP/data/in_vivo_phyto_abs.csv'
+batchinfo = pd.read_csv('/Users/jkravz311/git/EAP/data/vcourt_batch_F.csv', index_col=0)
 
 params = {'Vs1': np.arange(0.04,0.26,0.02), # small
           'Vs2': np.arange(0.2,0.4,0.02), # medium
@@ -51,9 +51,9 @@ clss = info.Class
 # nshellF = np.random.choice(params[info.nshell], 2, replace=False)
 # ncoreF = np.random.choice(params[info.ncore], 1)
 # Deff = np.arange(info.Dmin, info.Dmax, info.Dint)
-VsF = np.random.uniform(info.Vmin, info.Vmax, 5)
-CiF = np.random.uniform(info.Cmin, info.Cmax, 5) * 1e6
-nshellF = np.random.uniform(info.nmin, info.nmax, 5)
+VsF = np.random.uniform(info.Vmin, info.Vmax, 4)
+CiF = np.random.uniform(info.Cmin, info.Cmax, 4) * 1e6
+nshellF = np.random.uniform(info.nmin, info.nmax, 4)
 ncoreF = 1.04
 Deff = np.arange(info.Dmin, info.Dmax, info.Dint)
 
@@ -94,7 +94,7 @@ for Vs in VsF:
             
             result[rname] = rname_data
             
-with open('/Users/jkravz311/Desktop/2layers/{}.p'.format(phyto), 'wb') as fp:
+with open('/Users/jkravz311/Desktop/vcourt_2layers/{}.p'.format(phyto), 'wb') as fp:
     pickle.dump(result,fp)      
     
 #%% stramski data validation
@@ -167,10 +167,11 @@ ax.plot(l2,sparam,color='b')
 
 #%% vaillancourt data validation
 
-with open('/Users/jkravz311/Desktop/{}.p'.format(phyto), 'rb') as fp:
+phyto = 'D. tertiolecta1'
+with open('/Users/jkravz311/Desktop/vcourt_2layers/{}.p'.format(phyto), 'rb') as fp:
     data = pickle.load(fp)  
 
-p = 'b'
+p = 'a'
 l1 = np.arange(400,905,5)
 l2 = np.arange(400,901,1)
 l3 = np.array([510,620])
@@ -187,14 +188,14 @@ runs = pd.concat(runs,axis=1).T
 #     classes[c] = pd.concat(classes[c],axis=1).T
 
 # validation data
-val = {'a': pd.read_csv('/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/smooth/a_smooth.csv'),
-       'b': pd.read_csv('/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/smooth/b_smooth.csv'),
-       'c': pd.read_csv('/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/smooth/c_smooth.csv'),
-       'bb':pd.read_csv('/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/bb.csv'),
-       'Qa': pd.read_csv('/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/smooth/Qa_smooth.csv'),
-       'Qb':pd.read_csv('/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/smooth/Qb_smooth.csv'),
-       'Qc':pd.read_csv('/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/smooth/Qc_smooth.csv'),
-       'Qbb':pd.read_csv('/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/Qbb.csv'),
+val = {'a': pd.read_csv('/Users/jkravz311/GoogleDrive/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/smooth/a_smooth.csv'),
+       'b': pd.read_csv('/Users/jkravz311/GoogleDrive/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/smooth/b_smooth.csv'),
+       'c': pd.read_csv('/Users/jkravz311/GoogleDrive/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/smooth/c_smooth.csv'),
+       'bb':pd.read_csv('/Users/jkravz311/GoogleDrive/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/bb.csv'),
+       'Qa': pd.read_csv('/Users/jkravz311/GoogleDrive/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/smooth/Qa_smooth.csv'),
+       'Qb':pd.read_csv('/Users/jkravz311/GoogleDrive/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/smooth/Qb_smooth.csv'),
+       'Qc':pd.read_csv('/Users/jkravz311/GoogleDrive/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/smooth/Qc_smooth.csv'),
+       'Qbb':pd.read_csv('/Users/jkravz311/GoogleDrive/nasa_npp/groundtruth_data/phyto_optics/Vaillancourt/Qbb.csv'),
        }
 
 fig, ax = plt.subplots()
@@ -205,3 +206,27 @@ if p != 'bb':
     ax.plot(l2,sparam.iloc[:,2:].T.values,color='r')
 else:
     ax.plot(l3,sparam.loc[:,['510','620']].T.values, c='r', marker='s', ls='--')  
+    
+#%%
+runs = pd.concat(runs,axis=1).T 
+runs.index = newnames
+
+fig, ax = plt.subplots()
+param = val[p]
+sparam = param[param['Species'] == phyto]
+runs.columns = l1
+runs.T.plot(ax=ax, legend=False)
+ax.plot(l2,sparam.iloc[:,2:].T.values,color='b')
+ax.grid()
+    
+#%%
+check = runs[(runs.loc[:,675] > .011) & (runs.loc[:,675] < .014)]
+#check = check[(check.loc[:,400] > .04) & (check.loc[:,400] < .2)]
+#check = check[check.loc[:,400] < .185]
+fig, ax = plt.subplots()
+param = val[p]
+sparam = param[param['Species'] == phyto]
+runs.columns = l1
+check.T.plot(ax=ax, legend=False)
+ax.plot(l2,sparam.iloc[:,2:].T.values,color='b')
+ax.grid()

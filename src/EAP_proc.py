@@ -30,7 +30,7 @@ def EAP (phyto, mf, astarpath, Vs, ci, Deff, nshell, ncore):
     # using absorption for imaginary refractive index
     im = pd.read_csv(astarpath, index_col=0)
     im = im.filter(regex='^[0-9]')
-    im_wv = np.arange(.4,.901,.001)
+    im_wv = np.arange(.4,.901,.005)
     im_a1 = im.loc[phyto,:].values
     
     Vc=1 - Vs
