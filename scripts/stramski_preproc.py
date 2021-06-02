@@ -11,8 +11,8 @@ import pandas as pd
 import os
 import matplotlib.pyplot as plt
 
-path = '/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/dariusz/'
-chl = '/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/dariusz/chl.dat'
+path = '/Users/jakravit/Desktop/npp_projects/EAP/phyto_optics/dariusz/'
+chl = '/Users/jakravit/Desktop/npp_projects/EAP/phyto_optics/dariusz/chl.dat'
 
 codes = {}
 codes['hbac'] = {'Name':'Heterotrophic bacteria','Class':'Bacteria','Citation':'Stramski et al., 2011','ax':[],'bx':[],'cx':[],'c':[],'a':[],'b':[],'chl':[],'lx':[]}
@@ -58,6 +58,14 @@ from scipy.interpolate import griddata
 l1 = np.arange(350,751,1)
 l2 = np.arange(400,901,1)
 
+def interp(s):
+    s = griddata(l1, s, l2, 'linear') 
+    s = np.where(s < 0, np.nan, s) # replace negatives w/ nan
+    s = np.where(s == 0, np.nan, s) # replace zeros w/ nan
+    nans, x0 = np.isnan(s), lambda z: z.nonzero()[0] # replace nans
+    s[nans] = np.interp(x0(nans), x0(~nans), s[~nans])  
+    return s
+
 for f in os.listdir(path):
     info = f.split('_')
     if len(info) > 1:
@@ -74,19 +82,18 @@ for f in os.listdir(path):
             a = data[:,2] / (codes[p]['chl'] * 1000)
             b = data[:,3] / (codes[p]['chl'] * 1000)
             bb = data[:,4] / (codes[p]['chl'] * 1000)
-            codes[p]['c'] = griddata(l1, c, l2, 'linear', fill_value=c.min())
-            codes[p]['a'] = griddata(l1, a, l2, 'linear', fill_value=a.min())
-            codes[p]['b'] = griddata(l1, b, l2, 'linear', fill_value=b.min())   
-            codes[p]['bb'] = griddata(l1, bb, l2, 'linear', fill_value=bb.min())   
+            codes[p]['c'] = interp(c)
+            codes[p]['a'] = interp(a)
+            codes[p]['b'] = interp(b)   
+            codes[p]['bb'] = interp(bb)   
             
     else:
         continue
  
-with open('/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/dariusz/optics.p', 'wb') as fp:
+with open(path + 'optics.p', 'wb') as fp:
     pickle.dump(codes,fp)     
 
 #%% save abs to file to act as imag ref idx
-from scipy.interpolate import griddata
 
 a = pd.DataFrame()
 count = 0
