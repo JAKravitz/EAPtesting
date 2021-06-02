@@ -15,7 +15,7 @@ import statsmodels.api as sm
 import random
 
 
-phyto = 'K. rotundum' 
+phyto = 'G. simplex' 
 #code = 'parv'
 mf = '/Users/jkravz311/git/EAP/data/501nm_extended_e1701000.mat'
 astarpath = '/Users/jkravz311/git/EAP/data/in_vivo_phyto_abs.csv'
@@ -94,7 +94,7 @@ for Vs in VsF:
             
             result[rname] = rname_data
             
-with open('/Users/jkravz311/Desktop/vcourt_2layers/{}.p'.format(phyto), 'wb') as fp:
+with open('/Users/jkravz311/GoogleDrive/vcourt_2layers/{}.p'.format(phyto), 'wb') as fp:
     pickle.dump(result,fp)      
     
 #%% stramski data validation
