@@ -15,16 +15,16 @@ import statsmodels.api as sm
 import random
 
 
-clas = 'Dinophyceae'
-phyto = 'P. micans' 
-code = 'mica'
+clas = 'Rhodophyceae'
+phyto = 'P. cruentum' 
+code = 'crue'
 
-with open('/Users/jakravit/Desktop/npp_projects/EAP/phyto_optics/dariusz/optics.p', 'rb') as fp:
+with open('/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/dariusz/optics.p', 'rb') as fp:
     val = pickle.load(fp)  
 
 # with open('/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/stramski_optics1.p'.format(phyto), 'rb') as fp:
 #     data = pickle.load(fp)  
-with open('/Users/jakravit/Desktop/npp_projects/EAP/stramski_2layers/{}.p'.format(phyto), 'rb') as fp:
+with open('/Users/jakravit/Desktop/nasa_npp/EAP/stramski_2layers/{}.p'.format(phyto), 'rb') as fp:
     data = pickle.load(fp)   
 
 l1 = np.arange(400,905,5)
@@ -66,10 +66,10 @@ runs['species'] = phyto
 
 #%% Get smaller range according to in-situ spectra
 
-p = 'b'
+p = 'a'
 a = runs[p]   
-a = a[(a.loc[:,675] > .034) & (a.loc[:,675] < .039)]
-#check = check[(check.loc[:,400] > .04) & (check.loc[:,400] < .2)]
+#a = a[(a.loc[:,675] > .015) & (a.loc[:,675] < .02)]
+a = a[(a.loc[:,400] > .04) & (a.loc[:,400] < .05)]
 #a = a[a.loc[:,400] < .4]
 fig, ax = plt.subplots()
 sparam = val[code][p]
@@ -107,6 +107,6 @@ run = {'a':a,
 
 
 #%%
-path = '/Users/jakravit/Desktop/npp_projects/EAP/phyto_optics/dariusz/final_ranges/'
+path = '/Users/jakravit/Desktop/nasa_npp/EAP/stramski_final/'
 with open(path + '{}.p'.format(phyto), 'wb') as fp:
-    pickle.dump(runs,fp)  
+    pickle.dump(run,fp)  

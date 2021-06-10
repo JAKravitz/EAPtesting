@@ -11,7 +11,8 @@ import pickle
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 
-with open('/Users/jkravz311/Desktop/EAP_optics.p', 'rb') as fp:
+path = '/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/EAP_optics.p'
+with open(path, 'rb') as fp:
     data = pickle.load(fp)
 
 # lambda
