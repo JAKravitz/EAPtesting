@@ -15,9 +15,9 @@ import statsmodels.api as sm
 import random
 
 
-clas = 'Rhodophyceae'
-phyto = 'P. cruentum' 
-code = 'crue'
+clas = 'Dinophyceae'
+phyto = 'P. micans' 
+code = 'mica'
 
 with open('/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/dariusz/optics.p', 'rb') as fp:
     val = pickle.load(fp)  
@@ -66,10 +66,10 @@ runs['species'] = phyto
 
 #%% Get smaller range according to in-situ spectra
 
-p = 'a'
+p = 'b'
 a = runs[p]   
-#a = a[(a.loc[:,675] > .015) & (a.loc[:,675] < .02)]
-a = a[(a.loc[:,400] > .04) & (a.loc[:,400] < .05)]
+a = a[(a.loc[:,675] > .03) & (a.loc[:,675] < .035)]
+#a = a[(a.loc[:,400] > .04) & (a.loc[:,400] < .05)]
 #a = a[a.loc[:,400] < .4]
 fig, ax = plt.subplots()
 sparam = val[code][p]
@@ -77,7 +77,6 @@ a.T.plot(ax=ax,legend=False)
 ax.plot(l2,sparam, c='b',lw=3)
 ax.grid()
 print (a.shape[0])
-
 #%%
 idx = a.index
 a = runs['a'].loc[idx,:]
