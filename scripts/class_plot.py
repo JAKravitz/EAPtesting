@@ -163,14 +163,6 @@ fig.savefig('/Users/jakravit/Desktop/{}.png'.format(p),bbox_inches='tight',dpi=3
 
 
 #%%
-import seaborn as sns
-
-c = 'Chlorophyceae'
-fig, ax = plt.subplots()
-foo = pd.DataFrame([classes[c]['deff'],classes[c]['ci'],classes[c]['vg'],classes[c]['nshell']],index=['Deff','CI','Vg','nshell'])
-foo.T.boxplot(ax=ax)
-
-#%%
 fig, axs = plt.subplots(1,4, figsize=(15,7),sharey=True)
 axs = axs.ravel()
 for i,v in enumerate(['deff','ci','vg','nshell']):
