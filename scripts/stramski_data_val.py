@@ -15,9 +15,9 @@ import statsmodels.api as sm
 import random
 
 
-clas = 'Dinophyceae'
-phyto = 'P. micans' 
-code = 'mica'
+clas = 'Rhodophyceae'
+phyto = 'P. cruentum' 
+code = 'crue'
 
 with open('/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/dariusz/optics.p', 'rb') as fp:
     val = pickle.load(fp)  

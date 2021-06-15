@@ -37,19 +37,20 @@ l1 = np.arange(400,905,5)
 l2 = np.arange(400,901,1)
 l3 = np.array([440,470,510,620])
 
-classes = {'Bacillariophyceae': {'truth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Chlorophyceae': {'truth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Coscinodiscophyceae': {'truth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Cryptophyceae': {'truth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Cyanophyceae': {'truth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Dinophyceae': {'truth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Fragilariophyceae': {'truth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Pelagophyceae': {'truth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Prasinophyceae': {'truth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Prymnesiophyceae': {'truth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Raphidophyceae': {'truth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Rhodophyceae': {'truth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Haptophyceae': {'truth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]}          
+classes = {'Bacillariophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Chlorophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Coscinodiscophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Cryptophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Cyanophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Dinophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Fragilariophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Pelagophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Prasinophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Prymnesiophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Raphidophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Rhodophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Haptophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},          
+           'Eustigmatophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]} 
            }
 
 def get_classes(classes,data,p):
@@ -60,11 +61,14 @@ def get_classes(classes,data,p):
             classes[c]['vg'].append(float(info[0]))
             classes[c]['ci'].append(float(info[1]))
             classes[c]['nshell'].append(float(info[2]))
-            classes[c]['deff'].append(float(info[3]))
+            if len(info) == 4:
+                classes[c]['deff'].append(float(info[3]))
+            else:
+                classes[c]['deff'].append(float(info[4]))
             classes[c]['data'].append(data[phyto][p].loc[sname,:])
     return classes
 
-p = 'b'
+p = 'bb'
 classes = get_classes(classes,stramphy,p)
 classes = get_classes(classes,vcourtphy,p)
 
@@ -78,7 +82,7 @@ for code in stram_val:
         continue
     info = stram_val[code]
     cl = info['Class']
-    classes[cl]['truth'].append(info[p])
+    classes[cl]['struth'].append(info[p])
 
 # vcourt validation data
 path = '/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/Vaillancourt/'
@@ -95,9 +99,9 @@ court_val = {'a': pd.read_csv(path + 'smooth/a_smooth.csv'),
 vdata = court_val[p]
 groups = vdata.groupby('Class')
 for gi,gd in groups:
-    if gi in ['Eustigmatophyceae']:
-        continue
-    classes[gi]['truth'].append(gd.iloc[:,2:].values)
+    # if gi in ['Eustigmatophyceae']:
+    #     continue
+    classes[gi]['vtruth'].append(gd.iloc[:,2:].values)
 
 
 # concat data groups
@@ -105,25 +109,82 @@ for c in classes:
     classes[c]['data'] = pd.concat(classes[c]['data'],axis=1).T
     
 # concat truth groups
-# for c in classes:
-#     classes[c]['truth'] = np.vstack((classes[c]['truth']))
 for c in classes:
-    classes[c]['truth'] = pd.DataFrame(np.vstack((classes[c]['truth'])),columns=l2)
+    if len(classes[c]['vtruth']): 
+        if p == 'bb':
+            col = l3
+        else:
+            col = l2
+        classes[c]['vtruth'] = pd.DataFrame(np.vstack((classes[c]['vtruth'])),columns=col)
+
+for c in classes:
+    if len(classes[c]['struth']):
+        classes[c]['struth'] = pd.DataFrame(np.vstack((classes[c]['struth'])),columns=l2)
+
+    
     
 #%%
 
 fig, axs = plt.subplots(4,4,figsize=(20,20))
 axs = axs.ravel()
 count = 0
-for c in classes:
-    print (c)
-    res = sm.graphics.fboxplot(classes[c]['data'].values, l1, wfactor=50, ax=axs[count])
-    classes[c]['truth'].T.plot(ax=axs[count],legend=False)
-    axs[count].set_title(c)
 
-    count = count+1
-#fig.savefig('/Users/jkravz311/Desktop/bb_fda.png',bbox_inches='tight',dpi=300)
+if p in ['a','b']:
+    for c in classes:
+        print (c)
+        res = sm.graphics.fboxplot(classes[c]['data'].values, l1, wfactor=1000, ax=axs[count])
+        if not isinstance(classes[c]['vtruth'], list):    
+            classes[c]['vtruth'].T.plot(ax=axs[count],color='b',legend=False)
+        if not isinstance(classes[c]['struth'], list):
+            classes[c]['struth'].T.plot(ax=axs[count],color='r',legend=False)
+        axs[count].set_title(c)
+        if p == 'b':
+            axs[count].set_ylim(0,.7)
+        else:
+            axs[count].set_ylim(0,.1)
+        axs[count].set_xlim(400,800)
+        count = count+1
+        
+else:
+    for c in classes:
+        print (c)
+        res = sm.graphics.fboxplot(classes[c]['data'].values, l1, wfactor=1000, ax=axs[count])
+        if not isinstance(classes[c]['vtruth'], list):    
+            classes[c]['vtruth'].T.plot(ax=axs[count],color='b',ls='--',marker='s', legend=False)
+        if not isinstance(classes[c]['struth'], list):
+            classes[c]['struth'].T.plot(ax=axs[count],color='r',legend=False)
+        axs[count].set_title(c)
+        #axs[count].set_ylim(0,.1)
+        axs[count].set_xlim(400,800)
+        count = count+1   
+    
+    
+fig.savefig('/Users/jakravit/Desktop/{}.png'.format(p),bbox_inches='tight',dpi=300)
 
 
+#%%
+import seaborn as sns
+
+c = 'Chlorophyceae'
+fig, ax = plt.subplots()
+foo = pd.DataFrame([classes[c]['deff'],classes[c]['ci'],classes[c]['vg'],classes[c]['nshell']],index=['Deff','CI','Vg','nshell'])
+foo.T.boxplot(ax=ax)
+
+#%%
+fig, axs = plt.subplots(1,4, figsize=(15,7),sharey=True)
+axs = axs.ravel()
+for i,v in enumerate(['deff','ci','vg','nshell']):
+    df = {}
+    for c in classes:
+        df[c] = classes[c][v]    
+    axs[i].boxplot(df.values(),vert=False,whis=1.5)
+axs[0].set_yticks(range(1,len(df.keys())+1))
+axs[0].set_yticklabels(df.keys())
+axs[0].set_xlabel(u'Deff (\u03bcm)')
+axs[1].set_xlabel('Ci (kgm$^{-3}$)')
+axs[2].set_xlabel('Vg (%)')
+axs[3].set_xlabel('n_shell')
+plt.subplots_adjust(wspace=.1)
+fig.savefig('/Users/jakravit/Desktop/2layer_params.png',bbox_inches='tight',dpi=300)
 
 
