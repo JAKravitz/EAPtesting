@@ -19,7 +19,7 @@ clas = 'Rhodophyceae'
 phyto = 'P. cruentum' 
 code = 'crue'
 
-with open('/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/dariusz/optics.p', 'rb') as fp:
+with open('/Users/jakravit/git/EAP/data/val/stram_optics.p', 'rb') as fp:
     val = pickle.load(fp)  
 
 # with open('/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/stramski_optics1.p'.format(phyto), 'rb') as fp:

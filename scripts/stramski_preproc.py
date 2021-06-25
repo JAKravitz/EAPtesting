@@ -11,8 +11,9 @@ import pandas as pd
 import os
 import matplotlib.pyplot as plt
 
-path = '/Users/jakravit/Desktop/npp_projects/EAP/phyto_optics/dariusz/'
-chl = '/Users/jakravit/Desktop/npp_projects/EAP/phyto_optics/dariusz/chl.dat'
+path = '/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/dariusz/'
+chl = '/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/dariusz/chl.dat'
+outpath = '/Users/jakravit/git/EAP/data/'
 
 codes = {}
 codes['hbac'] = {'Name':'Heterotrophic bacteria','Class':'Bacteria','Citation':'Stramski et al., 2011','ax':[],'bx':[],'cx':[],'c':[],'a':[],'b':[],'chl':[],'lx':[]}
@@ -67,6 +68,8 @@ def interp(s):
     return s
 
 for f in os.listdir(path):
+    if f.startswith('.'):
+        continue
     info = f.split('_')
     if len(info) > 1:
         p = f.split('_')[0]
@@ -90,7 +93,7 @@ for f in os.listdir(path):
     else:
         continue
  
-with open(path + 'optics.p', 'wb') as fp:
+with open(outpath + 'stram_optics.p', 'wb') as fp:
     pickle.dump(codes,fp)     
 
 #%% save abs to file to act as imag ref idx

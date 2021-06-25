@@ -12,8 +12,8 @@ import pickle
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 
-strampath = '/Users/jakravit/Desktop/nasa_npp/EAP/stramski_final/'
-vcourtpath = '/Users/jakravit/Desktop/nasa_npp/EAP/vcourt_final/'
+strampath = '/Users/jakravit/git/EAP/data/final_ranges/stramski/'
+vcourtpath = '/Users/jakravit/git/EAP/data/final_ranges/vcourt/'
 
 stramlist = os.listdir(strampath)
 vcourtlist = os.listdir(vcourtpath)
@@ -36,21 +36,23 @@ vcourtphy = get_phytos(vcourtlist, vcourtpath)
 l1 = np.arange(400,905,5)
 l2 = np.arange(400,901,1)
 l3 = np.array([440,470,510,620])
+lac9 = np.array([412,440,488,510,532,555,620,650,676,715])
+lhs6 = np.array([442,488,532,555,620,676])
 
-classes = {'Bacillariophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Chlorophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Coscinodiscophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Cryptophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Cyanophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Dinophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Fragilariophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Pelagophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Prasinophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Prymnesiophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Raphidophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Rhodophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Haptophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},          
-           'Eustigmatophyceae': {'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]} 
+classes = {'Bacillariophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Chlorophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Coscinodiscophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Cryptophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Cyanophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Dinophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Fragilariophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Pelagophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Prasinophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Prymnesiophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Raphidophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Rhodophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
+           'Haptophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},          
+           'Eustigmatophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]} 
            }
 
 def get_classes(classes,data,p):
@@ -74,9 +76,8 @@ classes = get_classes(classes,vcourtphy,p)
 
 
 # stramski validation data
-with open('/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/dariusz/optics.p', 'rb') as fp:
+with open('/Users/jakravit/git/EAP/data/val/stram_optics.p', 'rb') as fp:
     stram_val = pickle.load(fp) 
-
 for code in stram_val:
     if code in ['hbac','viru']:
         continue
@@ -85,17 +86,11 @@ for code in stram_val:
     classes[cl]['struth'].append(info[p])
 
 # vcourt validation data
-path = '/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/Vaillancourt/'
-court_val = {'a': pd.read_csv(path + 'smooth/a_smooth.csv'),
-             'b': pd.read_csv(path + 'smooth/b_smooth.csv'),
-             'c': pd.read_csv(path + 'smooth/c_smooth.csv'),
-             'bb':pd.read_csv(path + 'bb.csv'),
-             'Qa': pd.read_csv(path + 'smooth/Qa_smooth.csv'),
-             'Qb':pd.read_csv(path + 'smooth/Qb_smooth.csv'),
-             'Qc':pd.read_csv(path + 'smooth/Qc_smooth.csv'),
-             'Qbb':pd.read_csv(path + 'Qbb.csv'),
+path = '/Users/jakravit/git/EAP/data/val/'
+court_val = {'a': pd.read_csv(path + 'vcourt_a.csv'),
+             'b': pd.read_csv(path + 'vcourt_b.csv'),
+             'bb':pd.read_csv(path + 'vcourt_bb.csv'),
              }
-
 vdata = court_val[p]
 groups = vdata.groupby('Class')
 for gi,gd in groups:
@@ -103,6 +98,16 @@ for gi,gd in groups:
     #     continue
     classes[gi]['vtruth'].append(gd.iloc[:,2:].values)
 
+# whitmire validation data
+path = '/Users/jakravit/git/EAP/data/val/'
+whit_val = {'a': pd.read_csv(path + 'whit_a_subset.csv'),
+             'b': pd.read_csv(path + 'whit_b_subset.csv'),
+             'bb':pd.read_csv(path + 'whit_bb_subset.csv'),
+             }
+wdata = whit_val[p]
+groups = wdata.groupby('Class')
+for gi,gd in groups:
+    classes[gi]['wtruth'] = gd.iloc[:,4:].div(gd.Chl,axis=0)
 
 # concat data groups
 for c in classes:
@@ -121,7 +126,13 @@ for c in classes:
     if len(classes[c]['struth']):
         classes[c]['struth'] = pd.DataFrame(np.vstack((classes[c]['struth'])),columns=l2)
 
-    
+for c in classes:
+    if len(classes[c]['wtruth']): 
+        if p == 'bb':
+            col = lhs6
+        else:
+            col = lac9
+        classes[c]['wtruth'].columns = col
     
 #%%
 
@@ -137,6 +148,8 @@ if p in ['a','b']:
             classes[c]['vtruth'].T.plot(ax=axs[count],color='b',legend=False)
         if not isinstance(classes[c]['struth'], list):
             classes[c]['struth'].T.plot(ax=axs[count],color='r',legend=False)
+        if not isinstance(classes[c]['wtruth'], list):
+            classes[c]['wtruth'].T.plot(ax=axs[count],color='g',ls='--',marker='o',legend=False)
         axs[count].set_title(c)
         if p == 'b':
             axs[count].set_ylim(0,.7)
@@ -150,11 +163,13 @@ else:
         print (c)
         res = sm.graphics.fboxplot(classes[c]['data'].values, l1, wfactor=1000, ax=axs[count])
         if not isinstance(classes[c]['vtruth'], list):    
-            classes[c]['vtruth'].T.plot(ax=axs[count],color='b',ls='--',marker='s', legend=False)
+            classes[c]['vtruth'].T.plot(ax=axs[count],color='b',ls='--',marker='o', legend=False)
         if not isinstance(classes[c]['struth'], list):
             classes[c]['struth'].T.plot(ax=axs[count],color='r',legend=False)
+        if not isinstance(classes[c]['wtruth'], list):
+            classes[c]['wtruth'].T.plot(ax=axs[count],color='g',ls='--',marker='o',legend=False)
         axs[count].set_title(c)
-        #axs[count].set_ylim(0,.1)
+        axs[count].set_ylim(0,.01)
         axs[count].set_xlim(400,800)
         count = count+1   
     
