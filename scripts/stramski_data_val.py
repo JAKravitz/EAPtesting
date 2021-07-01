@@ -68,7 +68,7 @@ runs['species'] = phyto
 
 p = 'b'
 a = runs[p]   
-a = a[(a.loc[:,675] > .03) & (a.loc[:,675] < .035)]
+a = a[(a.loc[:,675] > .12) & (a.loc[:,675] < .15)]
 #a = a[(a.loc[:,400] > .04) & (a.loc[:,400] < .05)]
 #a = a[a.loc[:,400] < .4]
 fig, ax = plt.subplots()
