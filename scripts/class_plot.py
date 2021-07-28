@@ -36,8 +36,8 @@ vcourtphy = get_phytos(vcourtlist, vcourtpath)
 l1 = np.arange(400,905,5)
 l2 = np.arange(400,901,1)
 l3 = np.array([440,470,510,620])
-lac9 = np.array([412,440,488,510,532,555,620,650,676,715])
-lhs6 = np.array([442,488,532,555,620,676])
+# lac9 = np.array([412,440,488,510,532,555,620,650,676,715])
+# lhs6 = np.array([442,488,532,555,620,676])
 
 classes = {'Bacillariophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
            'Chlorophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
@@ -99,15 +99,15 @@ for gi,gd in groups:
     classes[gi]['vtruth'].append(gd.iloc[:,2:].values)
 
 # whitmire validation data
-path = '/Users/jakravit/git/EAP/data/val/'
-whit_val = {'a': pd.read_csv(path + 'whit_a_subset.csv'),
-             'b': pd.read_csv(path + 'whit_b_subset.csv'),
-             'bb':pd.read_csv(path + 'whit_bb_subset.csv'),
-             }
-wdata = whit_val[p]
-groups = wdata.groupby('Class')
-for gi,gd in groups:
-    classes[gi]['wtruth'] = gd.iloc[:,4:].div(gd.Chl,axis=0)
+# path = '/Users/jakravit/git/EAP/data/val/'
+# whit_val = {'a': pd.read_csv(path + 'whit_a_subset.csv'),
+#              'b': pd.read_csv(path + 'whit_b_subset.csv'),
+#              'bb':pd.read_csv(path + 'whit_bb_subset.csv'),
+#              }
+# wdata = whit_val[p]
+# groups = wdata.groupby('Class')
+# for gi,gd in groups:
+#     classes[gi]['wtruth'] = gd.iloc[:,4:].div(gd.Chl,axis=0)
 
 # concat data groups
 for c in classes:
@@ -126,17 +126,25 @@ for c in classes:
     if len(classes[c]['struth']):
         classes[c]['struth'] = pd.DataFrame(np.vstack((classes[c]['struth'])),columns=l2)
 
-for c in classes:
-    if len(classes[c]['wtruth']): 
-        if p == 'bb':
-            col = lhs6
-        else:
-            col = lac9
-        classes[c]['wtruth'].columns = col
+# for c in classes:
+#     if len(classes[c]['wtruth']): 
+#         if p == 'bb':
+#             col = lhs6
+#         else:
+#             col = lac9
+#         classes[c]['wtruth'].columns = col
     
 #%%
+import matplotlib.pylab as pylab
+params = {'legend.fontsize': 'small',
+          'axes.labelsize': 18,
+          'axes.titlesize': 24,
+          'xtick.labelsize': 13,
+          'ytick.labelsize': 13
+          }
+pylab.rcParams.update(params)
 
-fig, axs = plt.subplots(4,4,figsize=(20,20))
+fig, axs = plt.subplots(4,4,figsize=(20,20), sharex=True, sharey=True)
 axs = axs.ravel()
 count = 0
 
@@ -148,8 +156,8 @@ if p in ['a','b']:
             classes[c]['vtruth'].T.plot(ax=axs[count],color='b',legend=False)
         if not isinstance(classes[c]['struth'], list):
             classes[c]['struth'].T.plot(ax=axs[count],color='r',legend=False)
-        if not isinstance(classes[c]['wtruth'], list):
-            classes[c]['wtruth'].T.plot(ax=axs[count],color='g',ls='--',marker='o',legend=False)
+        # if not isinstance(classes[c]['wtruth'], list):
+        #     classes[c]['wtruth'].T.plot(ax=axs[count],color='g',ls='--',marker='o',legend=False)
         axs[count].set_title(c)
         if p == 'b':
             axs[count].set_ylim(0,.7)
@@ -166,14 +174,14 @@ else:
             classes[c]['vtruth'].T.plot(ax=axs[count],color='b',ls='--',marker='o', legend=False)
         if not isinstance(classes[c]['struth'], list):
             classes[c]['struth'].T.plot(ax=axs[count],color='r',legend=False)
-        if not isinstance(classes[c]['wtruth'], list):
-            classes[c]['wtruth'].T.plot(ax=axs[count],color='g',ls='--',marker='o',legend=False)
+        # if not isinstance(classes[c]['wtruth'], list):
+        #     classes[c]['wtruth'].T.plot(ax=axs[count],color='g',ls='--',marker='o',legend=False)
         axs[count].set_title(c)
         axs[count].set_ylim(0,.01)
         axs[count].set_xlim(400,800)
         count = count+1   
     
-    
+plt.subplots_adjust(hspace=.2,wspace=.1)
 fig.savefig('/Users/jakravit/Desktop/{}.png'.format(p),bbox_inches='tight',dpi=300)
 
 
