@@ -15,11 +15,11 @@ import statsmodels.api as sm
 import random
 
 
-phyto = 'G. simplex' 
-#code = 'parv'
+phyto = 'P. cruentum' 
+code = 'crue'
 mf = '/Users/jkravz311/git/EAP/data/501nm_extended_e1701000.mat'
 astarpath = '/Users/jkravz311/git/EAP/data/in_vivo_phyto_abs.csv'
-batchinfo = pd.read_csv('/Users/jkravz311/git/EAP/data/vcourt_batch_F.csv', index_col=0)
+batchinfo = pd.read_csv('/Users/jkravz311/git/EAP/data/stram_batch_F.csv', index_col=0)
 
 params = {'Vs1': np.arange(0.04,0.26,0.02), # small
           'Vs2': np.arange(0.2,0.4,0.02), # medium
@@ -51,10 +51,10 @@ clss = info.Class
 # nshellF = np.random.choice(params[info.nshell], 2, replace=False)
 # ncoreF = np.random.choice(params[info.ncore], 1)
 # Deff = np.arange(info.Dmin, info.Dmax, info.Dint)
-VsF = np.random.uniform(info.Vmin, info.Vmax, 4)
-CiF = np.random.uniform(info.Cmin, info.Cmax, 4) * 1e6
-nshellF = np.random.uniform(info.nmin, info.nmax, 4)
-ncoreF = 1.04
+VsF = np.random.uniform(info.Vmin, info.Vmax, 6)
+CiF = np.random.uniform(info.Cmin, info.Cmax, 6) * 1e6
+nshellF = np.random.uniform(info.nmin, info.nmax, 6)
+ncoreF = 1.03
 Deff = np.arange(info.Dmin, info.Dmax, info.Dint)
 
 # Run
@@ -94,7 +94,7 @@ for Vs in VsF:
             
             result[rname] = rname_data
             
-with open('/Users/jkravz311/GoogleDrive/vcourt_2layers/{}.p'.format(phyto), 'wb') as fp:
+with open('/Users/jkravz311/GoogleDrive/nasa_npp/EAP/stramski_2layers/{}.p'.format(phyto), 'wb') as fp:
     pickle.dump(result,fp)      
     
 #%% stramski data validation
