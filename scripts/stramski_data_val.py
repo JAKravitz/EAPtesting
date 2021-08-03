@@ -19,7 +19,7 @@ clas = 'Rhodophyceae'
 phyto = 'P. cruentum' 
 code = 'crue'
 
-with open('/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/dariusz/optics.p', 'rb') as fp:
+with open('/Users/jakravit/git/EAP/data/val/stram_optics.p', 'rb') as fp:
     val = pickle.load(fp)  
 
 # with open('/Users/jkravz311/Desktop/nasa_npp/groundtruth_data/phyto_optics/stramski_optics1.p'.format(phyto), 'rb') as fp:
@@ -66,10 +66,10 @@ runs['species'] = phyto
 
 #%% Get smaller range according to in-situ spectra
 
-p = 'a'
+p = 'b'
 a = runs[p]   
-#a = a[(a.loc[:,675] > .015) & (a.loc[:,675] < .02)]
-a = a[(a.loc[:,400] > .04) & (a.loc[:,400] < .05)]
+a = a[(a.loc[:,675] > .12) & (a.loc[:,675] < .15)]
+#a = a[(a.loc[:,400] > .04) & (a.loc[:,400] < .05)]
 #a = a[a.loc[:,400] < .4]
 fig, ax = plt.subplots()
 sparam = val[code][p]
@@ -77,7 +77,6 @@ a.T.plot(ax=ax,legend=False)
 ax.plot(l2,sparam, c='b',lw=3)
 ax.grid()
 print (a.shape[0])
-
 #%%
 idx = a.index
 a = runs['a'].loc[idx,:]

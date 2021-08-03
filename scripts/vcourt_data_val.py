@@ -14,9 +14,9 @@ import pickle
 import statsmodels.api as sm
 import random
 
-phyto = 'K. rotundum'
-clas = 'Dinophyceae'
-with open('/Users/jakravit/Desktop/npp_projects/EAP/vcourt_2layers/{}.p'.format(phyto), 'rb') as fp:
+phyto = 'Nannochloropsis sp.'
+clas = 'Eustigmatophyceae'
+with open('/Users/jakravit/Desktop/nasa_npp/EAP/vcourt_2layers/{}.p'.format(phyto), 'rb') as fp:
     data = pickle.load(fp)  
 
 
@@ -47,9 +47,11 @@ runs = {
         'Qb' : combine(data,'Qb',l1),
         'Qbb' : combine(data,'Qbb',l1)
         }
+print (runs['a'].shape[0])
+
 
 # validation data
-path = '/Users/jakravit/Desktop/npp_projects/EAP/phyto_optics/Vaillancourt/'
+path = '/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/Vaillancourt/'
 val = {'a': pd.read_csv(path + 'smooth/a_smooth.csv'),
        'b': pd.read_csv(path + 'smooth/b_smooth.csv'),
        'c': pd.read_csv(path + 'smooth/c_smooth.csv'),
@@ -78,9 +80,9 @@ for i,p in enumerate(runs):
 
 p = 'b'
 a = runs[p]   
-a = a[(a.loc[:,675] > .03) & (a.loc[:,675] < .05)]
+a = a[(a.loc[:,675] > .3) & (a.loc[:,675] < .5)]
 #check = check[(check.loc[:,400] > .04) & (check.loc[:,400] < .2)]
-#a = a[a.loc[:,400] < .4]
+#a = a[a.loc[:,400] < .12]
 fig, ax = plt.subplots()
 param = val[p]
 sparam = param[param['Species'] == phyto]
@@ -121,9 +123,12 @@ run = {'a':a,
        'class':clas}
 
 #%%
-path = '/Users/jakravit/Desktop/npp_projects/EAP/phyto_optics/Vaillancourt/final_ranges/'
+path = '/Users/jakravit/Desktop/nasa_npp/EAP/vcourt_final/'
 with open(path + '{}.p'.format(phyto), 'wb') as fp:
     pickle.dump(run,fp)  
 
-
+#%%
+# fpath = '/Users/jakravit/Desktop/nasa_npp/EAP/vcourt_final/Pavlova sp..p'
+# with open(fpath, 'rb') as fp:
+#     foo = pickle.load(fp)
 
