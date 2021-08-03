@@ -178,10 +178,10 @@ for i,phyto in enumerate(batchinfo.index):
 #     data = json.loads(loaddata)
 
 #%% test
-import pickle
+# import pickle
 
-with open('/Users/jkravz311/Desktop/EAP_optics.p', 'rb') as fp:
-    foo = pickle.load(fp)
+# with open('/Users/jkravz311/Desktop/EAP_optics.p', 'rb') as fp:
+#     foo = pickle.load(fp)
 
 
 # foo['Pelagophyceae'] = foo.pop('Pelagiophyceae')
