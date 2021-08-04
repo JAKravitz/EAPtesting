@@ -18,12 +18,15 @@
 @author: jakravit
 """
 from numpy import f2py
-sourcefile = open('/Users/jakravit/git/EAP/src/Dmmex_R14B_4.f','rb')
+sourcefile = open('/Users/jkravz311/git/EAP/src/Dmmex_R14B_4.f','rb')
 sourcecode = sourcefile.read()
 f2py.compile(sourcecode, modulename='Dmmex_R14B_4')
 import Dmmex_R14B_4
 import scipy.io as io
 import numpy as np
+import pickle
+
+outpath = '/Users/jkravz311/det_model.p'
 
 l = np.arange(.4, .705, .005) # wavelength range and resolution (changing this changes your interp value when normalising kshell)
 # int_val = 55 # refers to l[55] which is 675 nm. 255 for 1 nm resolution
@@ -39,7 +42,7 @@ wavelength = l/ nmedia
 
 wvno = 2 * np.pi / wavelength # this is a Mie param - combo of size and wavelength
 
-kcore = 0.010658 * np.exp(-0.007186* (l*1000)) #Stramski 2001 
+kcore = 0.0010658 * np.exp(-0.007186* (l*1000)) #Stramski 2001 
 kshell = kcore;
 
 # hilbert transform
@@ -201,4 +204,9 @@ outputvars['psdm1'] = psdm1
 outputvars['psdm2'] = psdm2
 outputvars['rho_vol'] = rho_vol
 
-sio.savemat('/Users/Lisl/Documents/2LAY/outputvars005to50_density300.mat', outputvars)
+with open(outpath, 'wb') as fp:
+    pickle.dump(outputvars,fp)
+
+#io.savemat('/Users/Lisl/Documents/2LAY/outputvars005to50_density300.mat', outputvars)
+
+
