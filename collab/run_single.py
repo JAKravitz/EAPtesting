@@ -13,22 +13,27 @@ import pickle
 import statsmodels.api as sm
 import random
 
-phyto = 'K. rotundum' 
+phyto = 'P. cruentum' 
 #code = 'parv'
 mf = '/content/EAP/data/501nm_extended_e1701000.mat'
 astarpath = '/content/EAP/data/in_vivo_phyto_abs.csv'
-batchinfo = pd.read_csv('/content/EAP/data/vcourt_batch_F.csv', index_col=0)
+batchinfo1 = pd.read_csv('/content/EAP/data/vcourt_batch_F.csv', index_col=0)
+batchinfo2 = pd.read_csv('/content/EAP/data/stram_batch_F.csv', index_col=0)
+
 
 def pandafy (array, Deff):
     out = pd.DataFrame(array, index=Deff)
     return out
 
 # get sample info
-info = batchinfo.loc[phyto,:]
+try:
+    info = batchinfo1.loc[phyto,:]
+except:
+    info = batchinfo2.loc[phyto,:]
 clss = info.Class
-VsF = np.random.uniform(info.Vmin, info.Vmax, 4)
-CiF = np.random.uniform(info.Cmin, info.Cmax, 4) * 1e6
-nshellF = np.random.uniform(info.nmin, info.nmax, 4)
+VsF = np.random.uniform(info.Vmin, info.Vmax, 5)
+CiF = np.random.uniform(info.Cmin, info.Cmax, 5) * 1e6
+nshellF = np.random.uniform(info.nmin, info.nmax, 5)
 ncoreF = 1.04
 Deff = np.arange(info.Dmin, info.Dmax, info.Dint)
 

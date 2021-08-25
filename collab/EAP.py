@@ -66,7 +66,7 @@ def EAP (phyto, mf, astarpath, Vs, ci, Deff, nshell, ncore):
     # # replace nans with minimum value
     # kshell_base[np.isnan(kshell_base)] = min(kshell_base)
     
-    kshell_norm = (6.75e-7/ nmedia) * (0.027 * ci/ Vs) / (4 * np.pi) #scale to this theoretical max unpackaged chl abs at 675 nm
+    kshell_norm = (6.75e-7/ nmedia) * (0.044 * ci/ Vs) / (4 * np.pi) #scale to this theoretical max unpackaged chl abs at 675 nm
     kshell = kshell_base * (kshell_norm / kshell_base[int_val]) #55 is index of 675 nm
     
     nshell = nshell + np.imag(analytic_signal(kshell))
@@ -77,7 +77,7 @@ def EAP (phyto, mf, astarpath, Vs, ci, Deff, nshell, ncore):
     mcore = ncore - kcore*1j
     mhom = nhom - khom*1j
     
-    psd = np.arange(1,101,1)
+    psd = np.arange(1,50,1)
     deltad=1
     deltadm=1
     theta901 = np.arange(0, 90.1, 0.1) # length 901

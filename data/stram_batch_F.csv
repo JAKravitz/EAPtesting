@@ -1,17 +1,17 @@
-Species,Class,Dmin,Dmax,Dint,Vmin,Vmax,Cmin,Cmax,nmin,nmax,ncore,F
-Prochlorococcus,Cyanophyceae,0.5,1,0.1,0.1,0.22,9,11.5,1.06,1.12,ncore1,x
-Synechococcus,Cyanophyceae,1,2,0.2,0.04,0.08,3,6,1.21,1.23,ncore2,x
-A. marina,Cyanophyceae,1,4,1,0.2,0.24,3,5,1.14,1.17,ncore2,x
-P. pinguis,Haptophyceae,5,8,1,0.22,0.32,2,4,1.12,1.15,ncore1,x
-T. pseudonanna2,Coscinodiscophyceae,5,8,1,0.04,0.18,5,7,1.13,1.15,ncore2,x
-P. lutheri,Haptophyceae,2,4,1,0.4,0.52,2,4,1.19,1.22,ncore2,x
-I. galbana2,Haptophyceae,4,8,1,0.35,0.45,2,4,1.1,1.14,ncore2,x
-E. huxleyi,Haptophyceae,4,8,1,0.04,0.6,0.1,12,1.19,1.23,ncore1,x
-P. cruentum,Rhodophyceae,5,12,1,0.04,0.6,0.1,12,1.06,1.23,ncore1,
-C. fragarioides,Cryptophyceae,4,8,1,0.05,0.2,2,3,1.17,1.2,ncore1,x
-P. parvum,Haptophyceae,4,7,1,0.27,0.5,2.5,3.5,1.12,1.2,ncore1,x
-D. bioculata,Chlorophyceae,5,9,1,0.22,0.5,7,9,1.03,1.1,ncore1,x
-D. tertiolecta2,Chlorophyceae,6,10,1,0.4,0.52,9,11,1.11,1.18,ncore1,x
-C. curvisetum,Bacillariophyceae,6,11,1,0.22,0.32,2,4,1.12,1.16,ncore1,x
-H. elongata,Haptophyceae,12,18,1,0.28,0.5,10,12,1.14,1.2,ncore1,x
-P. micans,Dinophyceae,20,30,1,0.04,0.7,0.1,12,1.05,1.23,ncore2,x
+Species,Class,Dmin,Dmax,Dint,Vmin,Vmax,Cmin,Cmax,nmin,nmax
+Prochlorococcus,Cyanophyceae,0.5,1,0.1,0.01,0.8,0.05,15,1.04,1.23
+Synechococcus,Cyanophyceae,1,2,0.2,0.01,0.8,0.05,15,1.04,1.23
+A. marina,Cyanophyceae,1,4,1,0.01,0.8,0.05,15,1.04,1.23
+P. pinguis,Haptophyceae,5,8,1,0.01,0.8,0.05,15,1.04,1.23
+T. pseudonanna2,Coscinodiscophyceae,5,8,1,0.01,0.8,0.05,15,1.04,1.23
+P. lutheri,Haptophyceae,2,4,1,0.01,0.8,0.05,15,1.04,1.23
+I. galbana2,Haptophyceae,4,8,1,0.01,0.8,0.05,15,1.04,1.23
+E. huxleyi,Haptophyceae,4,8,1,0.01,0.8,0.05,15,1.04,1.23
+P. cruentum,Rhodophyceae,5,12,1,0.01,0.8,0.05,15,1.04,1.23
+C. fragarioides,Cryptophyceae,4,8,1,0.01,0.8,0.05,15,1.04,1.23
+P. parvum,Haptophyceae,4,7,1,0.01,0.8,0.05,15,1.04,1.23
+D. bioculata,Chlorophyceae,5,9,1,0.01,0.8,0.05,15,1.04,1.23
+D. tertiolecta2,Chlorophyceae,6,10,1,0.01,0.8,0.05,15,1.04,1.23
+C. curvisetum,Bacillariophyceae,6,11,1,0.01,0.8,0.05,15,1.04,1.23
+H. elongata,Haptophyceae,12,18,1,0.01,0.8,0.05,15,1.04,1.23
+P. micans,Dinophyceae,20,30,1,0.01,0.8,0.05,15,1.04,1.23
