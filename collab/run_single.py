@@ -8,10 +8,7 @@ Created on Wed Aug 25 12:29:45 2021
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-try:
-    from EAP import EAP
-except:
-    from src.EAP import EAP
+from EAP import EAP
 import pickle
 import statsmodels.api as sm
 import random
