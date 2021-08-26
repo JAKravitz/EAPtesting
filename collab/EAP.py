@@ -77,7 +77,7 @@ def EAP (phyto, mf, astarpath, Vs, ci, Deff, nshell, ncore):
     mcore = ncore - kcore*1j
     mhom = nhom - khom*1j
     
-    psd = np.arange(1,50,1)
+    psd = np.arange(.1,5,.1)
     deltad=1
     deltadm=1
     theta901 = np.arange(0, 90.1, 0.1) # length 901

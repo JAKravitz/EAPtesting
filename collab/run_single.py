@@ -13,7 +13,7 @@ import pickle
 import statsmodels.api as sm
 import random
 
-phyto = 'P. cruentum' 
+phyto = 'Nannochloropsis sp.' 
 #code = 'parv'
 mf = '/content/EAP/data/501nm_extended_e1701000.mat'
 astarpath = '/content/EAP/data/in_vivo_phyto_abs.csv'
@@ -31,10 +31,10 @@ try:
 except:
     info = batchinfo2.loc[phyto,:]
 clss = info.Class
-VsF = np.random.uniform(info.Vmin, info.Vmax, 5)
-CiF = np.random.uniform(info.Cmin, info.Cmax, 5) * 1e6
-nshellF = np.random.uniform(info.nmin, info.nmax, 5)
-ncoreF = 1.04
+VsF = np.random.uniform(info.Vmin, info.Vmax, 4)
+CiF = np.random.uniform(info.Cmin, info.Cmax, 4) * 1e6
+nshellF = np.random.uniform(info.nmin, info.nmax, 4)
+ncoreF = 1.05
 Deff = np.arange(info.Dmin, info.Dmax, info.Dint)
 
 # Run
