@@ -16,7 +16,7 @@ import random
 
 phyto = 'Nannochloropsis sp.'
 clas = 'Eustigmatophyceae'
-with open('/Users/jakravit/Desktop/nasa_npp/EAP/vcourt_2layers/{}.p'.format(phyto), 'rb') as fp:
+with open('/Users/jakravit/Desktop/phyto_optics/eap_test/{}.p'.format(phyto), 'rb') as fp:
     data = pickle.load(fp)  
 
 
@@ -51,7 +51,7 @@ print (runs['a'].shape[0])
 
 
 # validation data
-path = '/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/Vaillancourt/'
+path = '/Users/jakravit/Desktop/phyto_optics/Vaillancourt/'
 val = {'a': pd.read_csv(path + 'smooth/a_smooth.csv'),
        'b': pd.read_csv(path + 'smooth/b_smooth.csv'),
        'c': pd.read_csv(path + 'smooth/c_smooth.csv'),
