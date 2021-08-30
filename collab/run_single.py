@@ -31,10 +31,10 @@ try:
 except:
     info = batchinfo2.loc[phyto,:]
 clss = info.Class
-VsF = np.random.uniform(info.Vmin, info.Vmax, 4)
-CiF = np.random.uniform(info.Cmin, info.Cmax, 4) * 1e6
-nshellF = np.random.uniform(info.nmin, info.nmax, 4)
-ncoreF = 1.05
+VsF = np.random.uniform(info.Vmin, info.Vmax, 7)
+CiF = np.random.uniform(info.Cmin, info.Cmax, 7) * 1e6
+nshellF = np.random.uniform(info.nmin, info.nmax, 7)
+ncoreF = 1.02
 Deff = np.arange(info.Dmin, info.Dmax, info.Dint)
 
 # Run
