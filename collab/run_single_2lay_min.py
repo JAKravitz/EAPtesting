@@ -18,8 +18,8 @@ species = 'AUS1'
 nprimepath = '/content/EAP/data/stramski_2007_mineral_nprime.csv'
 
 # sample info
-nreal = np.random.uniform(1.07, 1.22, 3)
-rho = np.random.uniform(1.9e6, 2.85e6, 3)
+nreal = np.random.uniform(1.07, 1.22, 2)
+rho = np.random.uniform(1.9e6, 2.85e6, 2)
 
 l = np.arange(.3, .855, .005)
 nprime = pd.read_csv(nprimepath,index_col=0)
