@@ -33,7 +33,7 @@ def twolay_min (kcore, nreal, rho, j):
     # int_val = 55 # refers to l[55] which is 675 nm. 255 for 1 nm resolution
     
     Vs = 0.2
-    D_eff = np.arange(2, 10, 2)# in detrital this is only used for the size of the array to put IOPs in ...
+    D_eff = np.arange(2, 4, 2)# in detrital this is only used for the size of the array to put IOPs in ...
     
     V_eff= 0.6
     Vc=1 - Vs
