@@ -42,7 +42,7 @@ for n in nreal:
             # standard
             #print ('####### i: {} - phyto: {} #######'.format(i,phyto))
             print ('------ {} ------'.format(rname))
-            a, b, bb = twolay_min(kcore, nreal, rho, j)
+            a, b, bb = twolay_min(kcore, n, r, j)
             
             # empty dict for current run
             rname_data = {'a': a,
