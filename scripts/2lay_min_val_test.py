@@ -23,7 +23,7 @@ for s in data:
     atot.append(a[0,:])
 atot = pd.DataFrame(atot,columns=l)
 
-atot.T.plot()
+atot.T.plot(legend=False)
 
 
 for s in data:
@@ -31,7 +31,7 @@ for s in data:
     btot.append(b[0,:])
 btot = pd.DataFrame(btot,columns=l)
 
-btot.T.plot()
+btot.T.plot(legend=False)
 
 
 

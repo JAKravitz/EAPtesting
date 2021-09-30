@@ -18,9 +18,9 @@ species = 'AUS1'
 nprimepath = '/content/EAP/data/stramski_2007_mineral_nprime.csv'
 
 # sample info
-nreal = np.random.uniform(1.07, 1.22, 5)
-rho = np.random.uniform(1.9e6, 2.85e6, 5)
-jexp = np.random.uniform(3.6, 4.4, 5)
+nreal = np.random.uniform(1.10,1.4,5)
+jexp = np.random.uniform(3.2, 4.8, 4)
+dmax = [10,50,120]
 
 l = np.arange(.3, .855, .005)
 nprime = pd.read_csv(nprimepath,index_col=0)
@@ -32,18 +32,19 @@ kcore = griddata(im_wv, kcore, l, 'linear',fill_value=last)
 # Run
 result = {}
 for n in nreal:
-    for r in rho:
-        for j in jexp:
+    for j in jexp:
+        for d in dmax:
         
-            # run name format: 'Vs_Ci_nshell'
-            rname = '{:.2f}_{:.2f}_{:.2f}'.format(n, r, j)
+            # name
+            rho = (n - 0.7717) / 0.1475e-6
+            rname = '{:.2f}_{:.2f}_{:.2f}_{}'.format(n, rho, j, d)
             result[rname] = {}
             
             # EAP run
             # standard
             #print ('####### i: {} - phyto: {} #######'.format(i,phyto))
             print ('------ {} ------'.format(rname))
-            a, b, bb = twolay_min(kcore, n, r, j)
+            a, b, bb = twolay_min(kcore, n, rho, j, d)
             
             # empty dict for current run
             rname_data = {'a': a,

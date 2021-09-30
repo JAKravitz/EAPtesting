@@ -27,7 +27,7 @@ import numpy as np
 import pickle
 from scipy.interpolate import griddata
 
-def twolay_min (kcore, nreal, rho, j):
+def twolay_min (kcore, nreal, rho, j, dmax):
 
     l = np.arange(.3, .855, .005) # wavelength range and resolution (changing this changes your interp value when normalising kshell)
     # int_val = 55 # refers to l[55] which is 675 nm. 255 for 1 nm resolution
@@ -65,7 +65,7 @@ def twolay_min (kcore, nreal, rho, j):
     mcore = ncore - kcore*1j
     mhom = nhom - khom*1j
     
-    psd = np.arange(0.05,50.5,0.05)
+    psd = np.arange(0.05,dmax,0.05)
     #psd = np.arange(0.05,120.05,0.05)
     deltad=1
     deltadm=1

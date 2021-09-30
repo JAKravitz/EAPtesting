@@ -42,7 +42,7 @@ wavelength = l/ nmedia
 
 wvno = 2 * np.pi / wavelength # this is a Mie param - combo of size and wavelength
 
-kcore = 0.0010658 * np.exp(-0.007186* (l*1000)) #Stramski 2001 
+kcore = 0.010658 * np.exp(-0.007186* (l*1000)) #Stramski 2001 
 kshell = kcore;
 
 # hilbert transform
