@@ -18,8 +18,9 @@ species = 'AUS1'
 nprimepath = '/content/EAP/data/stramski_2007_mineral_nprime.csv'
 
 # sample info
-nreal = np.random.uniform(1.07, 1.22, 3)
-rho = np.random.uniform(1.9e6, 2.85e6, 3)
+nreal = np.random.uniform(1.07, 1.22, 5)
+rho = np.random.uniform(1.9e6, 2.85e6, 5)
+jexp = np.random.uniform(3.6, 4.4, 5)
 
 l = np.arange(.3, .855, .005)
 nprime = pd.read_csv(nprimepath,index_col=0)
@@ -32,7 +33,7 @@ kcore = griddata(im_wv, kcore, l, 'linear',fill_value=last)
 result = {}
 for n in nreal:
     for r in rho:
-        for j in [3.6,3.9,4.2]:
+        for j in jexp:
         
             # run name format: 'Vs_Ci_nshell'
             rname = '{:.2f}_{:.2f}_{:.2f}'.format(n, r, j)
