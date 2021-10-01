@@ -18,8 +18,10 @@ species = 'AUS1'
 nprimepath = '/content/EAP/data/stramski_2007_mineral_nprime.csv'
 
 # sample info
-nreal = np.random.uniform(1.10,1.4,5)
-jexp = np.random.uniform(3.2, 4.8, 4)
+# nreal = np.random.uniform(1.10,1.4,3)
+# jexp = np.random.uniform(3.2, 4.8, 3)
+nreal = [1.1, 1.25, 1.4]
+jexp = [3.2, 4.0, 4.8]
 dmax = [10,50,120]
 
 l = np.arange(.3, .855, .005)
@@ -36,17 +38,15 @@ for n in nreal:
         for d in dmax:
         
             # name
-            rho = (n - 0.7717) / 0.1475e-6
+            rho = (n - 0.7717) / 0.1475e-6 # (wozniak & stramski, 2004)
             rname = '{:.2f}_{:.2f}_{:.2f}_{}'.format(n, rho, j, d)
             result[rname] = {}
             
             # EAP run
-            # standard
-            #print ('####### i: {} - phyto: {} #######'.format(i,phyto))
             print ('------ {} ------'.format(rname))
             a, b, bb = twolay_min(kcore, n, rho, j, d)
             
-            # empty dict for current run
+            # dict for current run
             rname_data = {'a': a,
                           'b': b,
                           'bb':bb}

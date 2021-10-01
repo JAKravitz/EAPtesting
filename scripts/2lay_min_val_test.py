@@ -34,4 +34,9 @@ btot = pd.DataFrame(btot,columns=l)
 btot.T.plot(legend=False)
 
 
+for s in data:
+    bb = data[s]['bb']
+    bbtot.append(bb[0,:])
+bbtot = pd.DataFrame(bbtot,columns=l)
 
+bbtot.T.plot(legend=False)
