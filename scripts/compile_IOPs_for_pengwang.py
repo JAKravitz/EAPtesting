@@ -52,6 +52,10 @@ adf = pd.concat([spdf,cldf,adf],axis=1)
 bdf = pd.concat(blist)
 bbdf = pd.concat(bblist)
 
+adf.to_csv('/Users/jakravit/Desktop/absorption_case1.csv')
+bdf.to_csv('/Users/jakravit/Desktop/scatter_case1.csv')
+bbdf.to_csv('/Users/jakravit/Desktop/backscatter_case1.csv')
+
 
 
     
