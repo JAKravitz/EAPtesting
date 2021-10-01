@@ -20,9 +20,10 @@ nprimepath = '/content/EAP/data/stramski_2007_mineral_nprime.csv'
 # sample info
 # nreal = np.random.uniform(1.10,1.4,3)
 # jexp = np.random.uniform(3.2, 4.8, 3)
-nreal = [1.1, 1.17, 1.23,]
-jexp = [3.4, 4.0, 4.6]
-dmax = [10,50,120]
+nreal = [1.1] #, 1.17, 1.23,]
+jexp = [3.4]#, 4.0, 4.6]
+dmax = [100.05]#[10.05,50.05,100.05]
+
 
 l = np.arange(.3, .855, .005)
 nprime = pd.read_csv(nprimepath,index_col=0)
