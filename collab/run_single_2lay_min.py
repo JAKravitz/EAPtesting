@@ -58,7 +58,7 @@ for n in nreal:
             
             result[rname] = rname_data
             
-            plt.plot(l,a)
+            plt.plot(l,a[0,:])
             plt.show()
             
 with open('/content/drive/My Drive/nasa_npp/2lay_min_test/{}.p'.format(species), 'wb') as fp:
