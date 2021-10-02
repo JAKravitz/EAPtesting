@@ -14,7 +14,7 @@ import statsmodels.api as sm
 import random
 from scipy.interpolate import griddata
 
-species = 'AUS1'
+species = 'KUW1'
 nprimepath = '/content/EAP/data/stramski_2007_mineral_nprime.csv'
 
 # sample info
@@ -58,8 +58,6 @@ for n in nreal:
             
             result[rname] = rname_data
             
-            plt.plot(l,a[0,:])
-            plt.show()
             
 with open('/content/drive/My Drive/nasa_npp/2lay_min_test/{}.p'.format(species), 'wb') as fp:
     pickle.dump(result,fp)    
