@@ -10,6 +10,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+#%% phytos
+
 strampath = '/Users/jakravit/git/EAP/data/final_ranges/stramski/'
 vcourtpath = '/Users/jakravit/git/EAP/data/final_ranges/vcourt/'
 phytos = ['I. galbana1.p', 'P. lutheri.p', 'T. pseudonana1.p', 'C. calcitrans.p',
@@ -56,7 +59,11 @@ adf.to_csv('/Users/jakravit/Desktop/absorption_case1.csv')
 bdf.to_csv('/Users/jakravit/Desktop/scatter_case1.csv')
 bbdf.to_csv('/Users/jakravit/Desktop/backscatter_case1.csv')
 
+#%% minerals
 
+minpath = '/Users/jakravit/Desktop/AUS1_1.p'
+with open (minpath,'rb') as fp:
+    iops = pickle.load(fp)
 
     
             
