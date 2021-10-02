@@ -14,14 +14,14 @@ import statsmodels.api as sm
 import random
 from scipy.interpolate import griddata
 
-species = 'KUW1'
+species = 'ICE1'
 nprimepath = '/content/EAP/data/stramski_2007_mineral_nprime.csv'
 
 # sample info
 # nreal = np.random.uniform(1.10,1.4,3)
 # jexp = np.random.uniform(3.2, 4.8, 3)
 nreal = [1.1, 1.17, 1.23,]
-jexp = [3.4, 4.0, 4.6]
+jexp = [3.2, 4.0, 4.8]
 dmax = [10.05, 50.05, 100.05]
 
 
