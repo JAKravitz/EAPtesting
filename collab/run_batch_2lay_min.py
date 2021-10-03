@@ -29,7 +29,7 @@ l = np.arange(.3, .855, .005)
 for sp in species:
     
     nprime = pd.read_csv(nprimepath,index_col=0)
-    kcore = nprime[species].values 
+    kcore = nprime[sp].values 
     im_wv = nprime.index.values / 1000
     last = kcore[-1:]
     kcore = griddata(im_wv, kcore, l, 'linear',fill_value=last)
