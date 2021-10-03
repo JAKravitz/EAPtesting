@@ -60,7 +60,7 @@ for sp in species:
                 result[rname] = rname_data
                 
                 
-    with open('/content/drive/My Drive/nasa_npp/2lay_min_test/{}.p'.format(species), 'wb') as fp:
+    with open('/content/drive/My Drive/nasa_npp/2lay_min_test/{}.p'.format(sp), 'wb') as fp:
         pickle.dump(result,fp)    
 
 
