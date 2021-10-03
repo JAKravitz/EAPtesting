@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np
 import pickle
 
-with open('/Users/jakravit/Desktop/ICE1.p', 'rb') as fp:
+with open('/Users/jakravit/Desktop/AUS1.p', 'rb') as fp:
     data = pickle.load(fp) 
 
 l = np.arange(.3, .855, .005)

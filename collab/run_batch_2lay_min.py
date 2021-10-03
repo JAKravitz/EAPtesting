@@ -16,19 +16,17 @@ from scipy.interpolate import griddata
 
 species = ['AUS1','ICE1','KUW1','NIG1','SAH1','OAH1','SAN1']
 nprimepath = '/content/EAP/data/stramski_2007_mineral_nprime.csv'
+nprime = pd.read_csv(nprimepath,index_col=0)
 
 # sample info
-# nreal = np.random.uniform(1.10,1.4,3)
-# jexp = np.random.uniform(3.2, 4.8, 3)
-nreal = [1.1, 1.17, 1.23, 1.3]
-jexp = [3.4, 4.0, 4.6]
+nreal = np.random.uniform(1.10, 1.3, 5)
+jexp = np.random.uniform(3.4, 4.6, 4)
 dmax = [10.05, 50.05, 100.05]
 l = np.arange(.3, .855, .005)
 
 # Run
 for sp in species:
     
-    nprime = pd.read_csv(nprimepath,index_col=0)
     kcore = nprime[sp].values 
     im_wv = nprime.index.values / 1000
     last = kcore[-1:]
@@ -41,7 +39,7 @@ for sp in species:
             
                 # name
                 rho = (n - 0.7717) / 0.1475e-6 # (wozniak & stramski, 2004)
-                rname = '{:.2f}_{:.2f}_{:.2f}_{}'.format(n, rho, j, d)
+                rname = '{}_{:.2f}_{:.2f}_{:.2f}_{}'.format(sp, n, rho, j, d)
                 result[rname] = {}
                 
                 # EAP run
