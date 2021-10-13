@@ -18,7 +18,7 @@
 @author: jakravit
 """
 from numpy import f2py
-sourcefile = open('/Users/jkravz311/git/EAP/src/Dmmex_R14B_4.f','rb')
+sourcefile = open('/content/EAP/src/Dmmex_R14B_4.f','rb') # to run in google collab
 sourcecode = sourcefile.read()
 f2py.compile(sourcecode, modulename='Dmmex_R14B_4')
 import Dmmex_R14B_4
