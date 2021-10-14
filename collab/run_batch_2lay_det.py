@@ -16,9 +16,12 @@ from scipy.interpolate import griddata
 
 
 # sample info
-rho = np.random.uniform(.2e6, .5e6, 3)
-nreal = np.random.uniform(1.03, 1.05, 3)
-jexp = np.random.uniform(3.4, 4.6, 3)
+#rho = np.random.uniform(.2e6, .5e6, 3)
+rho = [.2e6, .35e6, .5e6]
+#nreal = np.random.uniform(1.03, 1.05, 3)
+nreal = [1.03, 1.04, 1.05]
+#jexp = np.random.uniform(3.4, 4.6, 3)
+jexp = [3.4, 4, 4.6]
 dmax = [10.05, 50.05, 100.05]
 l = np.arange(.3, .855, .005)    
 kcore = 0.010658 * np.exp(-0.007186* (l*1000)) #Stramski 2001 

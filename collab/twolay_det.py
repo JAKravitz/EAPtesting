@@ -29,7 +29,7 @@ import pickle
 #outpath = '/Users/jkravz311/det_model.p'
 def twolay_det (kcore, nreal, rho, j, dmax):
 
-    l = np.arange(.4, .705, .005) # wavelength range and resolution (changing this changes your interp value when normalising kshell)
+    l = np.arange(.4, .905, .005) # wavelength range and resolution (changing this changes your interp value when normalising kshell)
     # int_val = 55 # refers to l[55] which is 675 nm. 255 for 1 nm resolution
     
     Vs = 0.2
@@ -155,7 +155,7 @@ def twolay_det (kcore, nreal, rho, j, dmax):
             psdm1 = psd / 1e6; # because it was in micron 1:1:100
             psdm2 = junge; # does this need anything doing to it to get into metres?
             deltadm = 1;
-            rho_a = 0.3e6; # ie. 0.4 e6 g is 400 kg/m^3. Babin et al 2003. will give b of roughly 1. highest relative scattering because least dense.
+            rho_a = rho; # ie. 0.4 e6 g is 400 kg/m^3. Babin et al 2003. will give b of roughly 1. highest relative scattering because least dense.
             distrib_vol = np.pi/ 6 * sum(psdm2 * psdm1 **3 * deltadm); 
             psdm2 = psdm2 * (1./ (distrib_vol * rho_a)); # this serves as per the ci normalisation, so your output IOPs
             # are mass specific!
