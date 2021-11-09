@@ -28,7 +28,7 @@ import pickle
 
 outpath = '/Users/jkravz311/det_model.p'
 
-l = np.arange(.4, .705, .005) # wavelength range and resolution (changing this changes your interp value when normalising kshell)
+l = np.arange(.4, .905, .005) # wavelength range and resolution (changing this changes your interp value when normalising kshell)
 # int_val = 55 # refers to l[55] which is 675 nm. 255 for 1 nm resolution
 
 Vs = 0.2
@@ -58,7 +58,7 @@ def analytic_signal(x):
     z = ifft(Z, N)
     return z
 
-ncore = 1.04 + np.imag(analytic_signal(kcore))
+ncore = 1.03 + np.imag(analytic_signal(kcore))
 nshell = ncore
 khom = kcore*Vc + kshell*Vs # real refractive index 
 nhom = ncore*Vc + nshell*Vs
@@ -66,8 +66,8 @@ mshell = nshell - kshell*1j
 mcore = ncore - kcore*1j
 mhom = nhom - khom*1j
 
-psd = np.arange(0.05,50.5,0.05)
-#psd = np.arange(0.05,120.05,0.05)
+#psd = np.arange(0.05,100.05,0.05)
+psd = np.arange(0.05,120.05,0.05)
 deltad=1
 deltadm=1
 theta901 = np.arange(0, 90.1, 0.1) # length 901
