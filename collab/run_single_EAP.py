@@ -31,20 +31,22 @@ try:
 except:
     info = batchinfo2.loc[phyto,:]
 clss = info.Class
-VsF = np.random.uniform(info.Vmin, info.Vmax, 7)
-CiF = np.random.uniform(info.Cmin, info.Cmax, 7) * 1e6
-nshellF = np.random.uniform(info.nmin, info.nmax, 7)
-ncoreF = 1.02
+# VsF = np.random.uniform(info.Vmin, info.Vmax, 3)
+# CiF = np.random.uniform(info.Cmin, info.Cmax, 7) * 1e6
+# nshellF = np.random.uniform(info.nmin, info.nmax, 7)
+ncoreF = [1.01, 1.03, 1.05]
 Deff = np.arange(info.Dmin, info.Dmax, info.Dint)
+VsF = [.02, .3, .6]
+nshellF = [1.06, 1.10, 1.23]
 
 # Run
 result = {}
 for Vs in VsF:
-    for ci in CiF:
+    for nc in ncoreF:
         for n in nshellF:
         
             # run name format: 'Vs_Ci_nshell'
-            rname = '{:.2f}_{:.2f}_{:.2f}'.format(Vs, ci/1e6, n)
+            rname = '{:.2f}_{:.2f}_{:.2f}'.format(Vs, nc, n)
             result[rname] = {}
             
             # EAP run

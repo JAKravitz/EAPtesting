@@ -163,7 +163,7 @@ def twolay_det (kcore, nreal, rho, j, dmax):
        
            # mass_check=rho_vol_check * rho_a; # - must be close to 1 
         
-           #     #for standard normal distribution 
+           # #for standard normal distribution 
            # exponent = (-psd/ 2)/ ((D_eff[jjj]/ 2) * V_eff)
            # psd2 = 1.0e20 * np.power((psd/2),((1-3* V_eff)/V_eff)) * np.exp(exponent)
            # # I think the 1e20 here is essentially just random so you can see a nice spread? It gets normalised afterwards.
@@ -171,9 +171,8 @@ def twolay_det (kcore, nreal, rho, j, dmax):
            # psdm1 = psd / 1e6; # because it was in micron 1:1:100
            # psdm2 = psd2 * 1e3; # really not sure why its multiplied by 1000 here.  
            # civol = np.pi/ 6 * sum(psdm2 * psdm1 **3 * deltadm) # the total volume of the distribution - before normalising
-           # psdm2 = psdm2 * (1./ (civol * ci)) # normalising to the ci 
-           
-            # psdvol = np.pi/6 * sum(psdm2 * np.power(psdm1, 3) * deltadm) # the resulting actual volume of the distribution
+           # psdm2 = psdm2 * (1./ (civol * ci)) # normalising to the ci           
+           # psdvol = np.pi/6 * sum(psdm2 * np.power(psdm1, 3) * deltadm) # the resulting actual volume of the distribution
     		
             
             # calculating the optical efficiencies (proportion of incident light absorbed, scattered on particle cross section) 
@@ -193,9 +192,39 @@ def twolay_det (kcore, nreal, rho, j, dmax):
             Sigma_a[jjj, nii] = np.pi/4 * Qa[jjj, nii]* sum(np.power(psdm1,2)* deltadm)
             a[jjj, nii] = c[jjj, nii] - b[jjj, nii]
             
+            # VSF
+            betabar, VSF_1 = ([] for i in range(2))
+            checkbar = []
+            b_check, bb_check = (np.zeros((len(D_eff),len(wavelength))) for i in range(2))
+            
+            bbtilde[jjj, nii] = bb[jjj, nii] / b[jjj, nii]
+    			
+    		# this little sub loop is INSIDE the jjj loop		
+            for ai in range (0, nang * 2 - 1): # this should go 1801 times - doesn't include the last in range  
+        		   # need a variable to get(II(:,ai)):
+                varII = [item[ai] for item in II]
+                betabar_ai = (1 / np.pi) * (sum(varII * psdm2 * d_alpha[nii]) / sum(Qbro * psdm2 * np.power(alpha, 2) * d_alpha[nii]))
+                betabar.insert(ai, betabar_ai)
+                VSF_1_ai = betabar[ai] * b[jjj, nii]  
+                VSF_1.insert(ai, VSF_1_ai) # this gives VSF_1 of 1801 angles. For the current instance of nii (wavelength) and jjj (Deff)
+    
+            # checkbar is back outside of the sub loop
+            checkbar = (2* np.pi * sum(betabar * np.sin(theta) * dtheta))
+            PF_check[jjj,nii] = checkbar
+            
+            b_check[jjj,nii] = 2 * np.pi * sum((VSF_1) * np.sin(theta) * dtheta)
+            
+            PF[jjj,nii,:] = betabar
+            VSF[jjj,nii,:] = VSF_1 # VSF_1s are put into matrix on each iteration of Deff, then wavelength.
+            # We want to get out all wavelengths but backscatter only angles for each Deff:
+                
+            slice_obj = slice(900, 1801) 
+            VSF_b = VSF[jjj, nii, slice_obj] # want to get the backward angles for this instance of Deff and all the wavelengths 
+            bb_check[jjj,nii] = 2 * np.pi * sum((VSF_b) * np.sin(theta[900: 1801]) * dtheta[900: 1801])              
+            
      	    # both the jjj loop and the nii loop end here.
     
-    return a, b, bb
+    return a, b, bb, VSF, VSF_b
 
 
 

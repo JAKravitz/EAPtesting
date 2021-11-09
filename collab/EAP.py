@@ -16,7 +16,7 @@ import pandas as pd
 import scipy.io as io
 
 def EAP (phyto, mf, astarpath, Vs, ci, Deff, nshell, ncore):
-    
+
     l = np.arange(.4, .905, .005) # wavelength range and resolution (changing this changes your interp value when normalising kshell)
     int_val = 55 # refers to l[55] which is 675 nm. 255 for 1 nm resolution
     
@@ -151,7 +151,9 @@ def EAP (phyto, mf, astarpath, Vs, ci, Deff, nshell, ncore):
     
             exponent = (-psd/ 2)/ ((D_eff[jjj]/ 2) * V_eff)
             psd2 = 1.0e20 * np.power((psd/2),((1-3* V_eff)/V_eff)) * np.exp(exponent)
-            psdm1 = psd / 1e6; psdm2 = psd2 * 1e3; civol = np.pi/ 6 * sum(psdm2 * psdm1 **3 * deltadm)
+            psdm1 = psd / 1e6; 
+            psdm2 = psd2 * 1e3; 
+            civol = np.pi/ 6 * sum(psdm2 * psdm1 **3 * deltadm)
             psdm2 = psdm2 * (1./ (civol * ci))
             psdvol = np.pi/6 * sum(psdm2 * np.power(psdm1, 3) * deltadm)
     		
@@ -218,4 +220,4 @@ def EAP (phyto, mf, astarpath, Vs, ci, Deff, nshell, ncore):
           
      	    # both the jjj loop and the nii loop end here.
              
-    return Qc, Sigma_c, c, Qb, Sigma_b, b, Qa, Sigma_a, a, Qbb, Sigma_bb, bb, bbtilde 
+    return Qc, Sigma_c, c, Qb, Sigma_b, b, Qa, Sigma_a, a, Qbb, Sigma_bb, bb, bbtilde, VSF, VSF_b, psdvol 
