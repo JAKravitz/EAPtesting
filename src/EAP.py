@@ -19,8 +19,8 @@ import pandas as pd
 import scipy.io as io
 
 def EAP (phyto, mf, astarpath, Vs, ci, Deff, nshell, ncore):
-    
-    l = np.arange(.4, .905, .005) # wavelength range and resolution (changing this changes your interp value when normalising kshell)
+        
+    l = np.arange(.4, .905, .005).astype(np.float32) # wavelength range and resolution (changing this changes your interp value when normalising kshell)
     int_val = 55 # refers to l[55] which is 675 nm. 255 for 1 nm resolution
     
     Vs = Vs
@@ -57,6 +57,7 @@ def EAP (phyto, mf, astarpath, Vs, ci, Deff, nshell, ncore):
         return z
     
     from scipy.interpolate import griddata
+    #kcore1 = .0005 * np.exp(-.01 * (l-.400))
     kcore = griddata(mf['RIs'][:, 5], mf['RIs'][:, 0], l, 'linear')
     #kshell_base = griddata(mf['RIs'][:, 5], mf['RIs'][:, 2], l, 'linear')
     
@@ -74,8 +75,8 @@ def EAP (phyto, mf, astarpath, Vs, ci, Deff, nshell, ncore):
     
     nshell = nshell + np.imag(analytic_signal(kshell))
     ncore = ncore + np.imag(analytic_signal(kcore))
-    khom = kcore*Vc + kshell*Vs # real refractive index 
-    nhom = ncore*Vc + nshell*Vs
+    khom = kcore*Vc + kshell*Vs # imag refractive index 
+    nhom = ncore*Vc + nshell*Vs # real RI
     mshell = nshell - kshell*1j
     mcore = ncore - kcore*1j
     mhom = nhom - khom*1j
@@ -221,4 +222,20 @@ def EAP (phyto, mf, astarpath, Vs, ci, Deff, nshell, ncore):
           
      	    # both the jjj loop and the nii loop end here.
              
-    return Qc, Sigma_c, c, Qb, Sigma_b, b, Qa, Sigma_a, a, Qbb, Sigma_bb, bb, bbtilde 
+    return a, b, bb, VSF, VSF_b, bbtilde, 
+
+#%% inputs
+
+phyto = 'Nannochloropsis sp.'
+mf = '/Users/jkravz311/git/EAP/data/501nm_extended_e1701000.mat'
+astarpath = '/Users/jkravz311/git/EAP/data/in_vivo_phyto_abs.csv'
+Vs = .2 
+ci = 2
+Deff = [.5,1,1.5,2]
+nshell = 1.13
+ncore = 1.02
+
+a, b, bb, VSF, VSF_b, bbtilde = EAP(phyto, mf, astarpath, Vs, ci, Deff, nshell, ncore)
+
+
+
