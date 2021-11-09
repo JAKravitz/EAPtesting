@@ -14,7 +14,7 @@ import statsmodels.api as sm
 import random
 from scipy.interpolate import griddata
 
-species = ['SAN1'] #'AUS1','ICE1','KUW1','NIG1','SAH1','OAH1',
+species = ['SAN1', 'AUS1','ICE1','KUW1','NIG1','SAH1','OAH1']
 nprimepath = '/content/EAP/data/stramski_2007_mineral_nprime.csv'
 nprime = pd.read_csv(nprimepath,index_col=0)
 

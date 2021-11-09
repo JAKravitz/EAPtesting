@@ -39,20 +39,20 @@ l3 = np.array([440,470,510,620])
 # lac9 = np.array([412,440,488,510,532,555,620,650,676,715])
 # lhs6 = np.array([442,488,532,555,620,676])
 
-classes = {'Bacillariophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Chlorophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Coscinodiscophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Cryptophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Cyanophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Dinophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Fragilariophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Pelagophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Prasinophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Prymnesiophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Raphidophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Rhodophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},
-           'Haptophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]},          
-           'Eustigmatophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[]} 
+classes = {'Bacillariophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[],'sp':[]},
+           'Chlorophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[],'sp':[]},
+           'Coscinodiscophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[],'sp':[]},
+           'Cryptophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[],'sp':[]},
+           'Cyanophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[],'sp':[]},
+           'Dinophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[],'sp':[]},
+           'Fragilariophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[],'sp':[]},
+           'Pelagophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[],'sp':[]},
+           'Prasinophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[],'sp':[]},
+           'Prymnesiophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[],'sp':[]},
+           'Raphidophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[],'sp':[]},
+           'Rhodophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[],'sp':[]},
+           'Haptophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[],'sp':[]},          
+           'Eustigmatophyceae': {'wtruth':[],'struth':[],'vtruth':[],'data':[],'vg':[],'ci':[],'nshell':[],'deff':[],'sp':[]} 
            }
 
 def get_classes(classes,data,p):
@@ -63,6 +63,7 @@ def get_classes(classes,data,p):
             classes[c]['vg'].append(float(info[0]))
             classes[c]['ci'].append(float(info[1]))
             classes[c]['nshell'].append(float(info[2]))
+            classes[c]['sp'].append(phyto)
             if len(info) == 4:
                 classes[c]['deff'].append(float(info[3]))
             else:
@@ -70,11 +71,23 @@ def get_classes(classes,data,p):
             classes[c]['data'].append(data[phyto][p].loc[sname,:])
     return classes
 
+p = 'a'
+classes = get_classes(classes,stramphy,p)
+classes = get_classes(classes,vcourtphy,p)
+with open('/Users/jakravit/Desktop/astar_classes.p', 'wb') as fp:
+    pickle.dump(classes,fp)
+p = 'b'
+classes = get_classes(classes,stramphy,p)
+classes = get_classes(classes,vcourtphy,p)
+with open('/Users/jakravit/Desktop/bstar_classes.p', 'wb') as fp:
+    pickle.dump(classes,fp)
 p = 'bb'
 classes = get_classes(classes,stramphy,p)
 classes = get_classes(classes,vcourtphy,p)
-
-
+with open('/Users/jakravit/Desktop/bbstar_classes.p', 'wb') as fp:
+    pickle.dump(classes,fp)
+    
+#%%
 # stramski validation data
 with open('/Users/jakravit/git/EAP/data/val/stram_optics.p', 'rb') as fp:
     stram_val = pickle.load(fp) 
