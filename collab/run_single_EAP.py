@@ -38,6 +38,10 @@ ncoreF = [1.01, 1.03, 1.05]
 Deff = np.arange(info.Dmin, info.Dmax, info.Dint)
 VsF = [.02, .3, .6]
 nshellF = [1.06, 1.10, 1.23]
+V_eff = [.2, .6]
+psd = [np.arange(.1,10,.2), np.arange(1,101,1)]
+Ci = [150, 250, 350] # carbon
+ci = [2, 7, 12] # chl
 
 # Run
 result = {}
