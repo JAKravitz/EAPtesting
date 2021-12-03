@@ -8,7 +8,7 @@ IOP 2-layer base code
 # fortran wrapper
 from numpy import f2py
 try:
-    sourcefile = open('/Users/jakravit/git/EAP/src/Dmmex_R14B_4.f','rb')
+    sourcefile = open('/Users/jakravit/git/EAPtesting/src/Dmmex_R14B_4.f','rb')
 except:
     sourcefile = open('/content/EAP/src/Dmmex_R14B_4.f','rb') # to run in google collab
 sourcecode = sourcefile.read()
@@ -23,8 +23,8 @@ import matplotlib.pyplot as plt
 #def EAP (phyto, mf, astarpath, Vs, ci, Deff, nshell, ncore):
   
 phyto = 'Nannochloropsis sp.'
-mf = '/Users/jakravit/git/EAP/data/501nm_extended_e1701000.mat'
-astarpath = '/Users/jakravit/git/EAP/data/in_vivo_phyto_abs.csv'
+mf = '/Users/jakravit/git/EAPtesting/data/501nm_extended_e1701000.mat'
+astarpath = '/Users/jakravit/git/EAPtesting/data/in_vivo_phyto_abs.csv'
 Vs = .2 
 ci = 2e6 # intracellular chl
 D_eff = [.5,1,1.5,2]
@@ -71,8 +71,8 @@ def analytic_signal(x):
 
 # core imaginary RI
 from scipy.interpolate import griddata
-#kcore1 = .0005 * np.exp(-.01 * (l-.400))
-kcore = griddata(mf['RIs'][:, 5], mf['RIs'][:, 0], l, 'linear')
+kcore = 0.041 * np.exp(-11.029 * l)
+#kcore = griddata(mf['RIs'][:, 5], mf['RIs'][:, 0], l, 'linear')
 #kshell_base = griddata(mf['RIs'][:, 5], mf['RIs'][:, 2], l, 'linear')
 
 # shell imaginary RI
@@ -89,9 +89,9 @@ nshell = nshell + np.imag(analytic_signal(kshell))
 ncore = ncore + np.imag(analytic_signal(kcore))
 khom = kcore*Vc + kshell*Vs # imag refractive index 
 nhom = ncore*Vc + nshell*Vs # real RI
-nhom660 = nhom[52]
-dif = n660_stram - nhom660
-nhom = nhom + dif # real RI accounting for carbon (Ci) using stramski98 eqs
+# nhom660 = nhom[52]
+# dif = n660_stram - nhom660
+# nhom = nhom + dif # real RI accounting for carbon (Ci) using stramski98 eqs
 mshell = nshell - kshell*1j
 mcore = ncore - kcore*1j
 mhom = nhom - khom*1j
@@ -173,7 +173,8 @@ for nii in np.arange(0,len(l)): # this is the wavelength loop
 
         exponent = (-psd/ 2)/ ((D_eff[jjj]/ 2) * V_eff)
         psd2 = 1.0e20 * np.power((psd/2),((1-3* V_eff)/V_eff)) * np.exp(exponent)
-        psdm1 = psd / 1e6; psdm2 = psd2 * 1e3; civol = np.pi/ 6 * sum(psdm2 * psdm1 **3 * deltadm)
+        psdm1 = psd / 1e6; psdm2 = psd2 * 1e3; 
+        civol = np.pi/ 6 * sum(psdm2 * psdm1 **3 * deltadm)
         psdm2 = psdm2 * (1./ (civol * ci))
         psdvol = np.pi/6 * sum(psdm2 * np.power(psdm1, 3) * deltadm)
         Cc[jjj] = psdvol * Ci
@@ -244,27 +245,89 @@ for nii in np.arange(0,len(l)): # this is the wavelength loop
              
 #    return a, b, bb, VSF, VSF_b, bbtilde, theta
 
-#%% inputs
+#%% VSF and PF
+from scipy.signal import savgol_filter
+from scipy.interpolate import splrep, splev
 
-# phyto = 'Nannochloropsis sp.'
-# mf = '/Users/jakravit/git/EAP/data/501nm_extended_e1701000.mat'
-# astarpath = '/Users/jakravit/git/EAP/data/in_vivo_phyto_abs.csv'
-# Vs = .2 
-# ci = 2e6
-# Deff = [.5,1,1.5,2]
-# nshell = 1.13
-# ncore = 1.02
+theta2 = np.rad2deg(theta)
+vsf440 = VSF[0,8,:]
+vsf660 = VSF[0,52,:]
 
-# #a, b, bb, VSF, VSF_b, bbtilde, theta = EAP(phyto, mf, astarpath, Vs, ci, Deff, nshell, ncore)
-
-# theta2 = np.rad2deg(theta)
-# vsf1 = VSF[0,:,:]
-
-# fig, ax = plt.subplots()
-# for i,k in enumerate(vsf1):
-#     ax.plot(theta2, k)
-# ax.set_yscale('log')
-# #ax.set_xscale('log')
+fig, ax = plt.subplots()
+ax.plot(theta2, vsf440, label='440nm')
+ax.plot(theta2, vsf660, label='660nm')
+# ax.plot(theta2,y_filt, label='svgol')
+# ax.plot(theta2, y_hat, label='spline')
+ax.set_yscale('log')
+ax.set_xlabel('Degrees')
+ax.set_ylabel('\u03B2 ($m^{-1} sr^{-1}$)')
+ax.legend()
+#fig.savefig('/Users/jakravit/Desktop/VSF.png',bbox_inches='tight',dpi=300)
 
 
+pf440 = PF[0,8,:]
+pf660 = PF[0,52,:]
 
+fig, ax = plt.subplots()
+ax.plot(theta2, pf440, label='440nm')
+ax.plot(theta2, pf660, label='660nm')
+ax.set_yscale('log')
+ax.set_xlabel('Degrees')
+ax.set_ylabel('phase func ($m^{-1} sr^{-1}$)')
+ax.legend()
+
+#%% VSF integration to b
+
+# 440 nm 
+slice_obj = slice(900, 1801) 
+VSF_bb = VSF[0, 8, slice_obj] # want to get the backward angles for this instance of Deff and all the wavelengths 
+bb_check = 2 * np.pi * sum((VSF_bb) * np.sin(theta[900: 1801]) * dtheta[900: 1801])  
+
+VSF_b = VSF[0,8,:]
+b_check = 2 * np.pi * sum((VSF_b) * np.sin(theta) * dtheta)
+
+#%% smooth VSF 
+
+bvsf = []
+bbvsf = []
+bsav = []
+bbsav = []
+bspl = []
+bbspl = []
+
+for i,k in enumerate(l):
+    vsf = VSF[0,i,:]
+    y_sav = savgol_filter(vsf, 101, 1)
+    bspl = splrep(theta2, vsf, s=.5)
+    y_spl = splev(theta2,bspl)
+    
+    # bb
+    # unfiltered
+    slice_obj = slice(900, 1801) 
+    vsf_bb = vsf[slice_obj] 
+    bbvsf.append( 2 * np.pi * sum((vsf_bb) * np.sin(theta[900: 1801]) * dtheta[900: 1801]))  
+    # savgol
+    vsf_sav_bb = y_sav[slice_obj]
+    bbsav.append( 2 * np.pi * sum((vsf_sav_bb) * np.sin(theta[900: 1801]) * dtheta[900: 1801]))
+    # spline
+    vsf_spl_bb = y_spl[slice_obj]
+    bbspl.append( 2 * np.pi * sum((vsf_spl_bb) * np.sin(theta[900: 1801]) * dtheta[900: 1801]))
+    
+    # b
+    # unfiltered
+    bvsf.append(2 * np.pi * sum((vsf) * np.sin(theta) * dtheta))    
+    # svgol
+    bsav.append(2 * np.pi * sum((y_sav) * np.sin(theta) * dtheta))
+    # spline
+    #bspl.append(2 * np.pi * sum((y_spl) * np.sin(theta) * dtheta)) 
+
+
+fig, ax = plt.subplots()
+ax.plot(l, bbvsf, label='unfilt')
+#ax.plot(theta2, vsf660, label='660nm')
+ax.plot(l, bbsav, label='svgol')
+ax.plot(l, bbspl, label='spline')
+#ax.set_yscale('log')
+#ax.set_xlabel('Degrees')
+#ax.set_ylabel('\u03B2 ($m^{-1} sr^{-1}$)')
+ax.legend()           

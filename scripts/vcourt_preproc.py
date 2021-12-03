@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import BSpline, LSQUnivariateSpline, UnivariateSpline
 from scipy import interpolate
 
-path = '/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/Vaillancourt/b.csv'
-outpath = '/Users/jakravit/git/EAP/data/val/vcourt_b.csv'
+path = '/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/Vaillancourt/a.csv'
+outpath = '/Users/jakravit/git/EAP/data/val/vcourt_a.csv'
 
 l = np.arange(400, 901, 1)
 data = pd.read_csv(path, index_col=0)

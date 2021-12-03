@@ -11,9 +11,9 @@ import pandas as pd
 import os
 import matplotlib.pyplot as plt
 
-path = '/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/dariusz/'
-chl = '/Users/jakravit/Desktop/nasa_npp/EAP/phyto_optics/dariusz/chl.dat'
-outpath = '/Users/jakravit/git/EAP/data/'
+path = '/Users/jakravit/Desktop/optics_data/Stramski/phyto_optics/'
+chl = '/Users/jakravit/Desktop/optics_data/Stramski/phyto_optics/chl.dat'
+outpath = '/Users/jakravit/pyProjects/EAP/data/'
 
 codes = {}
 codes['hbac'] = {'Name':'Heterotrophic bacteria','Class':'Bacteria','Citation':'Stramski et al., 2011','ax':[],'bx':[],'cx':[],'c':[],'a':[],'b':[],'chl':[],'lx':[]}
@@ -110,7 +110,7 @@ for s in codes:
 a = a.T
 idx = np.hstack(('Species','Class',l2))
 a.columns = idx
-a.to_csv('/Users/jkravz311/git/EAP/data/stamski_phyto_a.csv')
+a.to_csv('/Users/jakravit/pyProjects/EAP/data/stamski_phyto_a.csv')
 
 
 

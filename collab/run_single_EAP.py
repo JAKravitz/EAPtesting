@@ -13,7 +13,7 @@ import pickle
 import statsmodels.api as sm
 import random
 
-phyto = 'Nannochloropsis sp.' 
+phyto = 'C. polylepis' 
 #code = 'parv'
 mf = '/content/EAP/data/501nm_extended_e1701000.mat'
 astarpath = '/content/EAP/data/in_vivo_phyto_abs.csv'
